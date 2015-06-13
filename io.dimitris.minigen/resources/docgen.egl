@@ -1,0 +1,15 @@
+<body style="font-family:Tahoma;background-color:white">
+<h3>Summary</h3>
+[%=summary%]
+<h3>Examples</h3>
+[%for (example in examples){%]
+<pre style="border-width:1px; border-color:black; background-color:#EDC97D">
+[%=example%]
+</pre>
+generates:
+<pre style="border:1px solid black; background-color:#FBF996">
+[%=examplesGen.at(loopCount-1)%]
+</pre>
+[%if (hasMore){%]<hr>[%}%]
+[%}%]
+</body>

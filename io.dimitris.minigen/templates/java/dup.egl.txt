@@ -1,0 +1,3 @@
+Duplicates a line of code, commenting-out the first copy so that you can modify it without losing the original source
+
+***dup:System.out.println("Hello");***

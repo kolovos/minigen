@@ -1,0 +1,3 @@
+Creates an ANT project with a target named main
+
+***project***

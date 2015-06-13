@@ -1,0 +1,29 @@
+[%
+var paragraphs := Sequence{
+
+'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut orci nulla, ornare egestas, consectetur vitae, eleifend ut, lorem. Etiam quis leo nec orci rutrum gravida. Mauris varius. Phasellus volutpat orci et eros. Ut quam massa, adipiscing non, vestibulum vitae, blandit in, ante. Cras gravida, nisl nec scelerisque imperdiet, orci tortor aliquam arcu, vel ornare massa lectus ut turpis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nam rhoncus blandit velit. In quis nulla. Integer congue turpis vel magna. Nunc id magna at diam mollis sagittis. Maecenas a metus. Nam ultricies, justo eget sodales tincidunt, sapien lorem egestas erat, a fringilla magna enim at ipsum. Maecenas ut lorem ut justo tincidunt imperdiet. Proin justo. Ut enim. Vestibulum fringilla nisl id nibh. Curabitur vestibulum accumsan urna. In dignissim auctor risus.', 
+
+'Curabitur imperdiet augue eget nibh. Etiam ut ligula. Nullam ut tellus. Praesent consequat faucibus mi. Sed accumsan ipsum et justo. Sed purus. Sed pretium. Suspendisse neque nulla, convallis nec, consequat a, ultrices vitae, nunc. Proin elit. Nullam rhoncus. Praesent eleifend commodo mi. Fusce lorem nunc, faucibus et, rhoncus non, tincidunt ac, lacus. Morbi eu magna nec urna varius dapibus. Aliquam in sapien vitae ante mollis luctus. Vivamus consectetur tristique lacus.', 
+
+'Ut velit mi, lacinia ac, tincidunt dignissim, cursus et, risus. Mauris tempor justo ac magna. Aenean accumsan. Etiam lacinia nulla et nunc. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eros sapien, luctus ac, accumsan ac, ultrices quis, lectus. Curabitur sodales leo vitae diam. In ac sapien sed neque tincidunt convallis. Nulla ligula. Pellentesque magna nulla, semper placerat, molestie in, laoreet vitae, felis. Pellentesque tempus, nunc vitae semper accumsan, lectus magna mollis enim, eu aliquet odio enim id diam. Maecenas cursus, tellus non hendrerit rutrum, nulla enim sodales nibh, eu vestibulum enim ipsum ac risus. Morbi faucibus, urna quis sodales aliquet, dolor erat tempor urna, tempus pharetra ipsum nulla ac neque. Etiam elit. Etiam et leo ut lectus cursus congue. Phasellus velit libero, scelerisque sit amet, fermentum non, interdum sit amet, dui.',
+
+'Vestibulum turpis. Integer non nulla. Donec ut felis. Mauris nec mi. Nullam ultrices auctor tortor. Nam blandit tempus sapien. Quisque orci nisi, accumsan at, venenatis in, euismod id, sapien. Quisque at odio nec odio porta dictum. Nulla vel leo in lectus auctor rhoncus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sed turpis. Ut auctor quam vitae metus. Curabitur est neque, euismod sit amet, elementum et, rhoncus eu, enim. Nulla vel urna.',
+
+'Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vestibulum gravida auctor dui. Nunc eu arcu. Donec pretium neque ut eros. Nam vestibulum blandit arcu. Praesent varius enim id neque. Aenean eget elit et nulla rhoncus bibendum. Morbi ultricies dictum felis. Sed orci risus, malesuada vitae, cursus faucibus, bibendum et, metus. Aenean ac lectus vitae tellus commodo vulputate. Integer commodo sapien vel nisi.',
+
+'Integer varius ante tincidunt turpis. Proin ornare feugiat sapien. Suspendisse rhoncus magna et nisi. Donec laoreet. Cras ornare augue sed nibh. Praesent orci dolor, convallis vel, rhoncus quis, aliquet in, arcu. Nulla volutpat nibh nec sem. Maecenas dapibus luctus nisl. Cras libero. Cras fermentum elit tincidunt mauris. Vestibulum mauris risus, aliquet eget, fringilla quis, convallis nec, erat.',
+
+'Maecenas et magna quis arcu pulvinar mattis. Donec consequat. Nullam viverra, velit at convallis aliquet, lectus ipsum adipiscing nisi, sed sodales quam nibh feugiat elit. Donec risus. Aenean tristique. Quisque molestie arcu sit amet orci. Aliquam semper. Curabitur enim lacus, molestie ut, fringilla at, convallis mattis, felis. Phasellus eros lectus, aliquam id, pharetra non, facilisis venenatis, nunc. Praesent arcu. Fusce at eros. Nam bibendum. Nam quis nunc. Vestibulum eu augue. Proin et neque at risus imperdiet venenatis.',
+
+'Maecenas at sapien id justo aliquet mollis. Suspendisse sit amet arcu vitae nisl accumsan tempus. Nullam velit. Suspendisse venenatis ultrices justo. Nam semper nibh sollicitudin felis. Sed quis massa in tellus gravida congue. Nullam nunc urna, scelerisque nec, pellentesque sed, pellentesque ut, justo. Integer ornare, turpis non lobortis porttitor, neque lectus volutpat erat, sit amet blandit eros massa eget dolor. Maecenas a turpis. In est neque, lacinia sit amet, dictum sit amet, imperdiet id, enim. Sed venenatis commodo urna. Mauris eget eros. Nulla neque nisi, scelerisque quis, iaculis ac, consequat et, erat. Nulla est tellus, rutrum sed, convallis nec, tincidunt quis, purus. Ut ante ante, ultrices ut, ullamcorper et, pulvinar a, nunc. Sed lacus. Nulla nec velit. Nullam ut ante non ante vehicula feugiat. Fusce sed eros.',
+
+'Sed lectus leo, semper nec, dapibus nec, mollis at, nisi. Integer et leo nec ipsum dignissim ultrices. Vivamus ut ipsum. Maecenas rhoncus orci vel mi. Quisque fermentum scelerisque elit. Sed scelerisque porta sapien. Aliquam scelerisque nulla. Pellentesque pulvinar urna id tortor. Ut sit amet dui. Sed sit amet est. Phasellus nisl erat, tempor in, mattis eget, laoreet at, velit.',
+
+'Suspendisse potenti. Pellentesque turpis risus, aliquet in, tempor a, pellentesque ac, diam. Sed et velit. Sed tristique facilisis lectus. Nulla a neque sed libero rhoncus ultrices. Ut porta congue tortor. Nullam odio nunc, sodales id, vulputate vitae, dignissim sit amet, est. Quisque cursus ultrices tellus. Etiam at urna quis ipsum vehicula feugiat. Donec vitae mauris eu lectus condimentum condimentum. Integer eget nisi quis justo placerat volutpat.'};
+%]
+[%=paragraphs.at(0)%]
+
+[%for (i in Sequence{0..text.asInteger()-2}){%]
+[%=paragraphs.random()%]
+
+[%}%]

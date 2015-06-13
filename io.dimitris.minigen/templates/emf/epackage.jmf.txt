@@ -1,0 +1,3 @@
+Generates an EPackage in Emfatic
+
+***epackage:statemachine***

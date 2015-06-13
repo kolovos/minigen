@@ -1,0 +1,3 @@
+Generates a Tree metamodel in Emfatic
+
+***tree***

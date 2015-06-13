@@ -1,0 +1,3 @@
+An email response with inline comments
+
+***inline:George***

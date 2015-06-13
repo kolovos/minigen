@@ -1,0 +1,8 @@
+[%
+var title;
+var label;
+if (fields.at(1).isUndefined()) {title := fields.at(0); label:= fields.at(0);}
+else { title := fields.at(0); label := fields.at(1);}
+%]
+\section{[%=title%]}
+\label{sec:[%=label%]}
