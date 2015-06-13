@@ -94,7 +94,7 @@ public class Generator {
 		return templates.keySet();
 	}
 	
-	protected boolean popup = true;
+	protected boolean popup = false;
 	public String generate(Input input) {
 		String templatePath = templates.get(input.getTemplate());
 		
@@ -153,10 +153,7 @@ public class Generator {
 	}
 	
 	public static void main(String[] args) {
-		for (String s : "a\r\nb\r\nc".split("\r\n")) {
-			
-			System.err.println("#" + s.length() + "\r\n#");
-		}
+		System.out.println(Generator.getInstance().getTemplates());
 	}
 	
 	public String generate(String input) {

@@ -31,7 +31,15 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
@@ -55,11 +63,20 @@ public class Application implements HotkeyListener {
 	protected TemplateBrowser browser;
 	
 	public void shutdown() {
-		GlobalHotKey.INSTANCE.teardown();
+		try {
+			GlobalHotKey.INSTANCE.teardown();
+		} catch (Exception e) {}
 		System.exit(0);
 	}
 		
 	public void launch() {
+		
+		try {
+			GlobalHotKey.INSTANCE.teardown();
+		} catch (Exception e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		
 		try {
 			if (OperatingSystem.isWindowsVista()) {
@@ -149,8 +166,6 @@ public class Application implements HotkeyListener {
 			} catch (Exception e) {
 				shutdown();
 			}
-			
-			
 			
 		}
 	}
@@ -277,6 +292,7 @@ public class Application implements HotkeyListener {
 			
 			Robot robot = new Robot();
 			
+			/*
 			Object data = null;
 			
 			try {
@@ -287,22 +303,28 @@ public class Application implements HotkeyListener {
 			}
 			
 			oldData = data.toString();
-
+			*/
 			//robot.keyRelease(KeyEvent.VK_CONTROL);
 			//robot.keyRelease(KeyEvent.VK_ALT);
 			//robot.keyRelease(KeyEvent.VK_Q);
+			//robot.keyRelease(KeyEvent.VK_CONTROL);
+			//robot.keyRelease(KeyEvent.VK_SEMICOLON);
 			
-			if (!isTextSelected()) {
+			//if (!isTextSelected()) {
 				pressShiftHome(robot);
 				// Press a second time to get to the begining of the line
-				pressShiftHome(robot);
-			}
-			
+				//pressShiftHome(robot);
+			//}
+				
 			pressCtrlC(robot);
-
-			data = c.getData(DataFlavor.stringFlavor);
+			
+			Object data = c.getData(DataFlavor.stringFlavor);
+			//data = new BufferedReader(new InputStreamReader((InputStream) data)).readLine().trim();
+			data = "project";
 			
 			String generated = Generator.getInstance().generate(data.toString());
+			
+			System.out.println("Generated: " + generated + " from " + data);
 			
 			if (generated == null) return;
 			
@@ -312,58 +334,46 @@ public class Application implements HotkeyListener {
 			else {
 				c.setContents(new StringSelection(generated), null);
 				pressCtrlV(robot);
+				System.out.println("Done...");
 			}
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 		finally {
-			c.setContents(new StringSelection(oldData), null);
+			//c.setContents(new StringSelection(oldData), null);
 		}
 	}
 	
 	public void pressShiftHome(Robot robot) {
+		robot.keyPress(KeyEvent.VK_CONTROL);
+		delay(robot, 4);
+		robot.keyRelease(KeyEvent.VK_CONTROL);
 		
-//		// Disable NUMLOCK
-//		Toolkit toolkit = Toolkit.getDefaultToolkit();
-//		//boolean numlock = toolkit.getLockingKeyState(KeyEvent.VK_NUM_LOCK);
-//		
-//		//if (numlock) {
-//			toolkit.setLockingKeyState(KeyEvent.VK_NUM_LOCK, false);
-//			try {
-//				Thread.sleep(1000);
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//			//System.err.println("numlock = " + toolkit.getLockingKeyState(KeyEvent.VK_NUM_LOCK));
-//		//}
-//		
+		robot.keyPress(KeyEvent.VK_META);
 		robot.keyPress(KeyEvent.VK_SHIFT);
-		robot.keyPress(KeyEvent.VK_HOME);
-		delay(robot);
+		robot.keyPress(KeyEvent.VK_LEFT);
+		delay(robot, 5);
+		robot.keyRelease(KeyEvent.VK_LEFT);
 		robot.keyRelease(KeyEvent.VK_SHIFT);
-		robot.keyRelease(KeyEvent.VK_HOME);
-		//delay(robot);
-		
-		//if (numlock) {
-		//	toolkit.setLockingKeyState(KeyEvent.VK_NUM_LOCK, true);
-		//}
+		robot.keyRelease(KeyEvent.VK_META);
 	}
 	
 	public void pressCtrlC(Robot robot) {
-		robot.keyPress(KeyEvent.VK_CONTROL);
+		
+		robot.keyPress(KeyEvent.VK_META);
 		robot.keyPress(KeyEvent.VK_C);
 		delay(robot);
-		robot.keyRelease(KeyEvent.VK_CONTROL);
+		robot.keyRelease(KeyEvent.VK_META);
 		robot.keyRelease(KeyEvent.VK_C);
+		delay(robot);
 	}
 
 	public void pressCtrlV(Robot robot) {
-		robot.keyPress(KeyEvent.VK_CONTROL);
+		robot.keyPress(KeyEvent.VK_META);
 		robot.keyPress(KeyEvent.VK_V);
 		delay(robot);
-		robot.keyRelease(KeyEvent.VK_CONTROL);
+		robot.keyRelease(KeyEvent.VK_META);
 		robot.keyRelease(KeyEvent.VK_V);
 	}
 	

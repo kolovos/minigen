@@ -1,15 +1,23 @@
 package io.dimitris.minigen.ui;
 
 import io.dimitris.minigen.Application;
+import io.dimitris.minigen.GlobalKeyListenerExample;
 import io.dimitris.minigen.util.OperatingSystem;
 
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+
+import org.jnativehook.GlobalScreen;
+import org.jnativehook.NativeHookException;
+import org.jnativehook.keyboard.NativeKeyEvent;
+import org.jnativehook.keyboard.NativeKeyListener;
 
 import com.melloware.jintellitype.JIntellitype;
 
@@ -22,42 +30,6 @@ public class GlobalHotKey {
 	protected ArrayList<GlobalHotKeyListener> listeners = new ArrayList<GlobalHotKeyListener>();
 	protected Robot robot;
 	
-	public static void main(String[] args) throws Exception {
-		GlobalHotKey.INSTANCE.setup();
-		final Robot robot = new Robot();
-		GlobalHotKey.INSTANCE.addGlobalHotKeyListener(new GlobalHotKeyListener() {
-			
-			public void hotKeyPressed() {
-				
-				//robot.keyRelease(KeyEvent.VK_PERIOD);
-				//robot.keyRelease(KeyEvent.VK_CONTROL);
-				
-				Application.INSTANCE.pressCtrlC(robot);
-				
-				JFrame dialog = new JFrame();
-				dialog.setBounds(100,100,200,200);
-				//dialog.setModal(true);
-				dialog.setVisible(true);
-				try {
-					Thread.sleep(2000);
-				}
-				catch (Exception ex) {
-					ex.printStackTrace();
-				}
-				dialog.setVisible(false);
-				
-				Application.INSTANCE.delay(robot, 2);
-				
-				Application.INSTANCE.pressCtrlV(robot);
-				Application.INSTANCE.pressCtrlV(robot);
-			}
-			
-		});
-		while (1 > 0) {
-			Thread.sleep(1000);
-		}
-	}
-	
 	public GlobalHotKey() {
 
 	}
@@ -68,11 +40,10 @@ public class GlobalHotKey {
 			robot.keyRelease(KeyEvent.VK_ALT);
 			robot.keyRelease(KeyEvent.VK_Q);			
 		}
-		else {
+		else if (OperatingSystem.isLinux()) {
 			robot.keyRelease(KeyEvent.VK_CONTROL);
 			robot.keyRelease(KeyEvent.VK_SEMICOLON);
 		}
-
 	}
 	
 	public void addGlobalHotKeyListener(GlobalHotKeyListener listener) {
@@ -88,12 +59,38 @@ public class GlobalHotKey {
 	public void setup() throws Exception {
 		robot = new Robot();
 		if (OperatingSystem.isWindows()) setupWindows();
-		else /*if (OperatingSystem.isLinux())*/ setupLinux();
+		else if (OperatingSystem.isLinux()) setupLinux();
+		else setupMac();
 	}
 	
-	public void teardown() {
+	public void teardown() throws Exception {
 		if (OperatingSystem.isWindows()) teardownWindows();
 		else if (OperatingSystem.isLinux()) teardownLinux();
+		else teardownMac();
+	}
+	
+	protected void setupMac() throws Exception {
+		GlobalScreen.registerNativeHook();
+		LogManager.getLogManager().getLogger("org.jnativehook").setLevel(Level.OFF);
+        GlobalScreen.addNativeKeyListener(new NativeKeyListener() {
+			
+			@Override
+			public void nativeKeyTyped(NativeKeyEvent e) {}
+			
+			@Override
+			public void nativeKeyReleased(NativeKeyEvent e) {}
+			
+			@Override
+			public void nativeKeyPressed(NativeKeyEvent e) {
+				if (e.getModifiers() == NativeKeyEvent.CTRL_L_MASK && e.getKeyCode() == NativeKeyEvent.VC_SEMICOLON) {
+					notifyListeners();
+				}
+			}
+		});
+	}
+	
+	protected void teardownMac() throws Exception {
+		GlobalScreen.unregisterNativeHook();
 	}
 	
 	protected JIntellitype intellitype;
