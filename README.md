@@ -1,0 +1,2 @@
+# minigen
+Inline text generator
