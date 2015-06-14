@@ -29,11 +29,6 @@ public class DocumentationPage {
 	
 	protected File file;
 	
-	public static void main(String[] args) {
-		System.err.println(new DocumentationPage(new File("E:\\Projects\\Eclipse\\3.4\\workspace3\\eu.kolovos.minigen\\templates\\epackage.jmf.txt")).process());
-		//System.err.println(new DocumentationPage(null).replace("111111", 2, 4, "2222"));
-	}
-	
 	public DocumentationPage(File file) {
 		this.file = file;
 	}

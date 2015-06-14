@@ -14,41 +14,33 @@ package io.dimitris.minigen;
 import io.dimitris.minigen.ui.Console;
 import io.dimitris.minigen.ui.GlobalHotKey;
 import io.dimitris.minigen.ui.GlobalHotKeyListener;
-import io.dimitris.minigen.ui.JTrayIcon;
 import io.dimitris.minigen.ui.OpenTemplatesFolderAction;
 import io.dimitris.minigen.ui.ShowHelpAction;
 import io.dimitris.minigen.ui.TemplateBrowser;
-import io.dimitris.minigen.util.OperatingSystem;
 
 import java.awt.Image;
-import java.awt.Robot;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
 import java.awt.SystemTray;
 import java.awt.Toolkit;
 import java.awt.TrayIcon;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
 
 public class Application {
 	
 	public static Application INSTANCE = new Application();
 	
 	protected SystemTray systemTray;
-	protected JTrayIcon trayIcon;
+	protected TrayIcon trayIcon;
 	protected Image icon;
 	protected Console console;
 	protected TemplateBrowser browser;
 	protected ClipboardManager clipboardManager;
+	protected KeyboardManager keyboardManager = new KeyboardManager();
 	
 	public void shutdown() {
 		try {
@@ -65,71 +57,21 @@ public class Application {
 			
 			systemTray = SystemTray.getSystemTray();
 
-			final JPopupMenu popup = new JPopupMenu();
-			popup.add(new JMenuItem(new ShowConsoleAction()));
-			popup.add(new JMenuItem(new RefreshAction()));
-			popup.add(new JMenuItem(new ShowBrowserAction()));
-			popup.add(new JMenuItem(new OpenTemplatesFolderAction()));
+			final PopupMenu popup = new PopupMenu();
+			popup.add(new ActionMenuItem(new ShowBrowserAction()));
+			popup.add(new ActionMenuItem(new ShowConsoleAction()));
+			popup.add(new ActionMenuItem(new RefreshAction()));
+			popup.add(new ActionMenuItem(new OpenTemplatesFolderAction()));
 			popup.addSeparator();
-			popup.add(new JMenuItem(new ShowHelpAction()));
+			popup.add(new ActionMenuItem(new ShowHelpAction()));
+			popup.add(new ActionMenuItem(new ExitAction()));
 			
 			popup.addSeparator();
 			
-			JMenuItem exit = new JMenuItem("Exit");
-			exit.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					shutdown();
-				}
-			});
-			
-			popup.add(exit);
-			//if (OperatingSystem.isWindows()) {
-				icon = new ImageIcon("resources/application.png").getImage();
-			//}
-			//else {
-			//	icon = new ImageIcon("resources/application24.png").getImage();
-			//}
-			
-			trayIcon = new JTrayIcon(icon);
+			trayIcon = new TrayIcon( new ImageIcon("resources/application.png").getImage());
 			trayIcon.setToolTip("MiniGen: Press Ctrl+; to invoke");	
-			trayIcon.setJPopupMenu(popup);
+			trayIcon.setPopupMenu(popup);
 			trayIcon.setImageAutoSize(true);
-			
-			trayIcon.addMouseListener(new MouseListener() {
-				
-				@Override
-				public void mouseReleased(MouseEvent e) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-				@Override
-				public void mousePressed(MouseEvent e) {
-					//showBrowser(); 
-					popup.show(e.getComponent(), e.getX(), e.getY());
-				}
-				
-				@Override
-				public void mouseExited(MouseEvent e) {}
-				
-				@Override
-				public void mouseEntered(MouseEvent e) {}
-				
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					// TODO Auto-generated method stub
-					
-				}
-			});
-			
-			/*
-			trayIcon.addActionListener(new ActionListener() {
-				
-				public void actionPerformed(ActionEvent arg0) {
-					showBrowser();
-				}
-				
-			});*/
 			
 			console = Console.INSTANCE;
 			browser = new TemplateBrowser();
@@ -158,16 +100,6 @@ public class Application {
 		}
 	}
 	
-	public void showBrowser() {
-		browser.setVisible(true);
-	}
-	
-	public void showConsole() {
-		//trayIcon.setImage(Toolkit.getDefaultToolkit().createImage("application.png"));
-		console.appear();
-
-	}
-	
 	class ShowBrowserAction extends AbstractAction {
 		
 		public ShowBrowserAction() {
@@ -176,7 +108,7 @@ public class Application {
 		}
 
 		public void actionPerformed(ActionEvent actionevent) {
-			showBrowser();
+			browser.setVisible(true);
 		}
 		
 	}
@@ -195,6 +127,33 @@ public class Application {
 		
 	}
 	
+	class ExitAction extends AbstractAction {
+		
+		public ExitAction() {
+			super("Exit");
+			putValue(AbstractAction.SHORT_DESCRIPTION, "Refreshes the templates");
+		}
+
+		public void actionPerformed(ActionEvent actionevent) {
+			shutdown();
+		}
+		
+	}
+	class ActionMenuItem extends MenuItem {
+		
+		public ActionMenuItem(final AbstractAction action) {
+			super("" + action.getValue(AbstractAction.NAME));
+			this.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					action.actionPerformed(null);
+				}
+			});
+		}
+		
+	}
+	
 	class ShowConsoleAction extends AbstractAction {
 		
 		public ShowConsoleAction() {
@@ -203,11 +162,11 @@ public class Application {
 		}
 
 		public void actionPerformed(ActionEvent actionevent) {
-			showConsole();
+			console.appear();
 		}
 		
 	}
-	
+	/*
 	protected boolean isTextSelected() {
 		try {
 			Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
@@ -260,15 +219,9 @@ public class Application {
 		catch (Exception ex) {
 			return "";
 		}
-	}
+	}*/
 
-	public void delay(Robot robot) {
-		delay(robot, 1);
-	}
 	
-	public void delay(Robot robot, int times) {
-		robot.delay(50 * times);
-	}
 	
 	public void run() {
 		
@@ -277,15 +230,11 @@ public class Application {
 		
 		try {
 			
-			Robot robot = new Robot();
-			
 			oldData = clipboardManager.getClipboardContents();
-			
-			pressShiftHome(robot);	
-			pressCtrlC(robot);
+			keyboardManager.pressShiftHome();	
+			keyboardManager.pressCtrlC();
 			
 			String data = clipboardManager.getClipboardContents();
-			System.out.println("Data: " + data);
 			String generated = Generator.getInstance().generate(data.toString());
 			
 			if (generated == null) return;
@@ -295,7 +244,7 @@ public class Application {
 			}
 			else {
 				clipboardManager.setClipboardContents(generated);
-				pressCtrlV(robot);
+				keyboardManager.pressCtrlV();
 			}
 			
 		} catch (Exception ex) {
@@ -306,38 +255,7 @@ public class Application {
 		}
 	}
 	
-	public void pressShiftHome(Robot robot) {
-		
-		// Release control
-		robot.keyPress(KeyEvent.VK_CONTROL);
-		delay(robot, 4);
-		robot.keyRelease(KeyEvent.VK_CONTROL);
-		
-		robot.keyPress(KeyEvent.VK_META);
-		robot.keyPress(KeyEvent.VK_SHIFT);
-		robot.keyPress(KeyEvent.VK_LEFT);
-		delay(robot, 5);
-		robot.keyRelease(KeyEvent.VK_LEFT);
-		robot.keyRelease(KeyEvent.VK_SHIFT);
-		robot.keyRelease(KeyEvent.VK_META);
-	}
 	
-	public void pressCtrlC(Robot robot) {
-		robot.keyPress(KeyEvent.VK_META);
-		robot.keyPress(KeyEvent.VK_C);
-		delay(robot);
-		robot.keyRelease(KeyEvent.VK_META);
-		robot.keyRelease(KeyEvent.VK_C);
-		delay(robot);
-	}
-
-	public void pressCtrlV(Robot robot) {
-		robot.keyPress(KeyEvent.VK_META);
-		robot.keyPress(KeyEvent.VK_V);
-		delay(robot);
-		robot.keyRelease(KeyEvent.VK_META);
-		robot.keyRelease(KeyEvent.VK_V);
-	}
 	
 	public static void main(String[] args) throws Exception {
 		

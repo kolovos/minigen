@@ -6,6 +6,9 @@
 	<classpathentry kind="lib" path="velocity-1.6.2-dep.jar"/>
 	<classpathentry kind="lib" path="freemarker.jar"/>
 	<classpathentry kind="lib" path="JNativeHook.jar"/>
+	<classpathentry kind="lib" path="lib/forms-1.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/MacWidgets.jar"/>
+	<classpathentry kind="lib" path="quaqua.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.eclipse.epsilon.egl.engine"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.eclipse.epsilon.eol.engine"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.antlr.runtime_3.1.b1"/>

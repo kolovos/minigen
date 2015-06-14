@@ -19,7 +19,7 @@ import javax.swing.ImageIcon;
 public 	class ShowHelpAction extends AbstractAction {
 	
 	public ShowHelpAction() {
-		super("Online help", new ImageIcon("resources/help.gif"));
+		super("Help", new ImageIcon("resources/help-browser.png"));
 		putValue(AbstractAction.SHORT_DESCRIPTION, "Online help");
 	}
 
