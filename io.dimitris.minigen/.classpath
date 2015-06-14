@@ -2,12 +2,9 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="jintellitype-1.0.jar"/>
 	<classpathentry kind="lib" path="commons-logging-1.1.jar"/>
-	<classpathentry kind="lib" path="winlaf-0.5.1.jar"/>
 	<classpathentry kind="lib" path="velocity-1.6.2-dep.jar"/>
 	<classpathentry kind="lib" path="freemarker.jar"/>
-	<classpathentry kind="lib" path="JXGrabKey.jar"/>
 	<classpathentry kind="lib" path="JNativeHook.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.eclipse.epsilon.egl.engine"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.eclipse.epsilon.eol.engine"/>

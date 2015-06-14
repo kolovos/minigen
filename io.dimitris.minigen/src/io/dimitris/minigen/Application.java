@@ -28,41 +28,24 @@ import java.awt.TrayIcon;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
-import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StringReader;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
-import javax.swing.UIManager;
 
-import sun.awt.datatransfer.ClipboardTransferable;
-import sun.awt.datatransfer.SunClipboard;
-import net.java.plaf.windows.WindowsLookAndFeel;
-
-import com.melloware.jintellitype.HotkeyListener;
-import com.melloware.jintellitype.JIntellitype;
-
-public class Application implements HotkeyListener {
+public class Application {
 	
 	public static Application INSTANCE = new Application();
 	
 	protected SystemTray systemTray;
 	protected JTrayIcon trayIcon;
 	protected Image icon;
-	protected JIntellitype intellitype;
 	protected Console console;
 	protected TemplateBrowser browser;
 	protected ClipboardManager clipboardManager;
@@ -78,28 +61,11 @@ public class Application implements HotkeyListener {
 		
 		clipboardManager = new ClipboardManager(Toolkit.getDefaultToolkit().getSystemClipboard());
 		
-		try {
-			if (OperatingSystem.isWindowsVista()) {
-				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			}
-			else if (OperatingSystem.isWindows()){
-				UIManager.setLookAndFeel(new WindowsLookAndFeel());
-			}
-			else {
-				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			}
-		} catch (Exception e1) { 
-			// Do nothing
-		}
-		
 		if (SystemTray.isSupported()) {
-			
-			// Turn NUMLOCK off
-			// Toolkit.getDefaultToolkit().setLockingKeyState(KeyEvent.VK_NUM_LOCK, false);
 			
 			systemTray = SystemTray.getSystemTray();
 
-			JPopupMenu popup = new JPopupMenu();
+			final JPopupMenu popup = new JPopupMenu();
 			popup.add(new JMenuItem(new ShowConsoleAction()));
 			popup.add(new JMenuItem(new RefreshAction()));
 			popup.add(new JMenuItem(new ShowBrowserAction()));
@@ -125,23 +91,45 @@ public class Application implements HotkeyListener {
 			//}
 			
 			trayIcon = new JTrayIcon(icon);
-			
-			if (OperatingSystem.isWindows()) {
-				trayIcon.setToolTip("MiniGen: Press Ctrl+Alt+Q to invoke");
-			}
-			else {
-				trayIcon.setToolTip("MiniGen: Press Ctrl+; to invoke");	
-			}
+			trayIcon.setToolTip("MiniGen: Press Ctrl+; to invoke");	
 			trayIcon.setJPopupMenu(popup);
 			trayIcon.setImageAutoSize(true);
 			
+			trayIcon.addMouseListener(new MouseListener() {
+				
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mousePressed(MouseEvent e) {
+					//showBrowser(); 
+					popup.show(e.getComponent(), e.getX(), e.getY());
+				}
+				
+				@Override
+				public void mouseExited(MouseEvent e) {}
+				
+				@Override
+				public void mouseEntered(MouseEvent e) {}
+				
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+			
+			/*
 			trayIcon.addActionListener(new ActionListener() {
 				
 				public void actionPerformed(ActionEvent arg0) {
 					showBrowser();
 				}
 				
-			});
+			});*/
 			
 			console = Console.INSTANCE;
 			browser = new TemplateBrowser();
