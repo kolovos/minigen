@@ -28,6 +28,7 @@ import java.awt.TrayIcon;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -36,6 +37,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -46,6 +48,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.UIManager;
 
+import sun.awt.datatransfer.ClipboardTransferable;
+import sun.awt.datatransfer.SunClipboard;
 import net.java.plaf.windows.WindowsLookAndFeel;
 
 import com.melloware.jintellitype.HotkeyListener;
@@ -61,6 +65,7 @@ public class Application implements HotkeyListener {
 	protected JIntellitype intellitype;
 	protected Console console;
 	protected TemplateBrowser browser;
+	protected ClipboardManager clipboardManager;
 	
 	public void shutdown() {
 		try {
@@ -71,12 +76,7 @@ public class Application implements HotkeyListener {
 		
 	public void launch() {
 		
-		try {
-			GlobalHotKey.INSTANCE.teardown();
-		} catch (Exception e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
+		clipboardManager = new ClipboardManager(Toolkit.getDefaultToolkit().getSystemClipboard());
 		
 		try {
 			if (OperatingSystem.isWindowsVista()) {
@@ -117,12 +117,12 @@ public class Application implements HotkeyListener {
 			});
 			
 			popup.add(exit);
-			if (OperatingSystem.isWindows()) {
+			//if (OperatingSystem.isWindows()) {
 				icon = new ImageIcon("resources/application.png").getImage();
-			}
-			else {
-				icon = new ImageIcon("resources/application24.png").getImage();
-			}
+			//}
+			//else {
+			//	icon = new ImageIcon("resources/application24.png").getImage();
+			//}
 			
 			trayIcon = new JTrayIcon(icon);
 			
@@ -284,7 +284,6 @@ public class Application implements HotkeyListener {
 	
 	public void run() {
 		
-		Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
 		console.clear();
 		String oldData = null;
 		
@@ -292,39 +291,14 @@ public class Application implements HotkeyListener {
 			
 			Robot robot = new Robot();
 			
-			/*
-			Object data = null;
+			oldData = clipboardManager.getClipboardContents();
 			
-			try {
-				data = c.getData(DataFlavor.stringFlavor);
-			}
-			catch (Exception ex) {
-				data = "";
-			}
-			
-			oldData = data.toString();
-			*/
-			//robot.keyRelease(KeyEvent.VK_CONTROL);
-			//robot.keyRelease(KeyEvent.VK_ALT);
-			//robot.keyRelease(KeyEvent.VK_Q);
-			//robot.keyRelease(KeyEvent.VK_CONTROL);
-			//robot.keyRelease(KeyEvent.VK_SEMICOLON);
-			
-			//if (!isTextSelected()) {
-				pressShiftHome(robot);
-				// Press a second time to get to the begining of the line
-				//pressShiftHome(robot);
-			//}
-				
+			pressShiftHome(robot);	
 			pressCtrlC(robot);
 			
-			Object data = c.getData(DataFlavor.stringFlavor);
-			//data = new BufferedReader(new InputStreamReader((InputStream) data)).readLine().trim();
-			data = "project";
-			
+			String data = clipboardManager.getClipboardContents();
+			System.out.println("Data: " + data);
 			String generated = Generator.getInstance().generate(data.toString());
-			
-			System.out.println("Generated: " + generated + " from " + data);
 			
 			if (generated == null) return;
 			
@@ -332,20 +306,21 @@ public class Application implements HotkeyListener {
 				displayWarningMessage("Nothing generated", "The template was invoked with no errors, but did not generate any text.");
 			}
 			else {
-				c.setContents(new StringSelection(generated), null);
+				clipboardManager.setClipboardContents(generated);
 				pressCtrlV(robot);
-				System.out.println("Done...");
 			}
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 		finally {
-			//c.setContents(new StringSelection(oldData), null);
+			clipboardManager.setClipboardContents(oldData);
 		}
 	}
 	
 	public void pressShiftHome(Robot robot) {
+		
+		// Release control
 		robot.keyPress(KeyEvent.VK_CONTROL);
 		delay(robot, 4);
 		robot.keyRelease(KeyEvent.VK_CONTROL);
@@ -360,7 +335,6 @@ public class Application implements HotkeyListener {
 	}
 	
 	public void pressCtrlC(Robot robot) {
-		
 		robot.keyPress(KeyEvent.VK_META);
 		robot.keyPress(KeyEvent.VK_C);
 		delay(robot);
