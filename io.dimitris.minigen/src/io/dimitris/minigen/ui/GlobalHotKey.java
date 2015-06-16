@@ -17,6 +17,7 @@ public class GlobalHotKey {
 	public static GlobalHotKey INSTANCE = new GlobalHotKey();
 	protected ArrayList<GlobalHotKeyListener> listeners = new ArrayList<GlobalHotKeyListener>();
 	protected Robot robot;
+	protected int key = NativeKeyEvent.VC_BACK_SLASH;
 	
 	public GlobalHotKey() {
 
@@ -30,7 +31,7 @@ public class GlobalHotKey {
 		}
 		else if (OperatingSystem.isLinux()) {
 			robot.keyRelease(KeyEvent.VK_CONTROL);
-			robot.keyRelease(KeyEvent.VK_SEMICOLON);
+			robot.keyRelease(key);
 		}
 	}
 	
@@ -66,7 +67,7 @@ public class GlobalHotKey {
 			
 			@Override
 			public void nativeKeyPressed(NativeKeyEvent e) {
-				if (e.getModifiers() == NativeKeyEvent.CTRL_L_MASK && e.getKeyCode() == NativeKeyEvent.VC_SEMICOLON) {
+				if (e.getModifiers() == NativeKeyEvent.CTRL_L_MASK && e.getKeyCode() == key) {
 					notifyListeners();
 				}
 			}

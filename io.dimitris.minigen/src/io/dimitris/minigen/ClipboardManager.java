@@ -92,10 +92,8 @@ public class ClipboardManager {
 	
 		String script = "set the clipboard to \"" + contents.replace("\"", "\\\"") + "\"";
 		
-		ScriptEngineManager mgr = new ScriptEngineManager();
-		ScriptEngine engine = mgr.getEngineByName("AppleScript");
 		try {
-			engine.eval(script);
+			AppleScriptEngine.getInstance().eval(script);
 		} catch (ScriptException e) {
 			e.printStackTrace();
 		}

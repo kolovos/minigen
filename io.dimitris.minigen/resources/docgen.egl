@@ -1,15 +1,19 @@
 <body style="background-color:white;font-family:'Lucida Grande';padding-left:8px;padding-right:8px">
 <h3>Summary</h3>
 [%=summary%]
-<h3>Examples</h3>
+<h3>[%if(examples.size()>1){%]Examples[%}else{%]Example[%}%]</h3>
 [%for (example in examples){%]
-<pre style="background-color:rgb(231,235,240); padding:4px; font-family:'Lucida Grande'">
+<div style="background-color:rgb(231,235,240); padding:4px; margin-bottom:8px; font-family:'Lucida Grande'">
+<pre>
 [%=example%]
 </pre>
+</div>
 generates:
-<pre style="background-color:rgb(245,245,245); padding:4px; font-family:'Lucida Grande'">
+<div style="background-color:rgb(245,245,245); margin-top:8px; padding:4px; font-family:'Lucida Grande'">
+<pre>
 [%=examplesGen.at(loopCount-1)%]
 </pre>
-[%if (hasMore){%]<hr>[%}%]
+</div>
+[%if (hasMore){%]<br>[%}%]
 [%}%]
 </body>

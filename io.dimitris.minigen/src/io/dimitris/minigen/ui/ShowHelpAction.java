@@ -11,20 +11,27 @@
 
 package io.dimitris.minigen.ui;
 
+import io.dimitris.minigen.AppleScriptEngine;
+
 import java.awt.event.ActionEvent;
 
+import javax.script.ScriptException;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 
 public 	class ShowHelpAction extends AbstractAction {
 	
 	public ShowHelpAction() {
-		super("Help", new ImageIcon("resources/help-browser.png"));
+		super("elp", new ImageIcon("resources/help-browser.png"));
 		putValue(AbstractAction.SHORT_DESCRIPTION, "Online help");
 	}
 
 	public void actionPerformed(ActionEvent actionevent) {
-		BrowserLauncher.openURL("http://kolovos.wiki.sourceforge.net/MiniGen");
+		try {
+			AppleScriptEngine.getInstance().eval("open location \"https://github.com/kolovos/minigen\"");
+		} catch (ScriptException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

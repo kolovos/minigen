@@ -1,10 +1,10 @@
 package io.dimitris.minigen.ui;
-import io.dimitris.minigen.util.OperatingSystem;
+import io.dimitris.minigen.AppleScriptEngine;
 
 import java.awt.event.ActionEvent;
 import java.io.File;
-import java.io.IOException;
 
+import javax.script.ScriptException;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 
@@ -28,16 +28,14 @@ public class OpenTemplatesFolderAction extends AbstractAction {
 
 	public void actionPerformed(ActionEvent actionevent) {
 		try {
-			String command = null;
-			if (OperatingSystem.isWindows()) {
-				command = "explorer";
-			}
-			if (OperatingSystem.isLinux()) {
-				command = "xdg-open";
-			}
-			Runtime.getRuntime().exec(command + " " + new File("templates").getAbsolutePath());
-		} catch (IOException ex) {
-			ex.printStackTrace();
+			AppleScriptEngine.getInstance().eval(
+				"set thePath to POSIX file \"" + new File("templates").getAbsolutePath() + "\"", 
+				"tell application \"Finder\"",
+				"	reveal thePath",
+				"	activate",
+				"end tell");
+		} catch (ScriptException e) {
+			e.printStackTrace();
 		}
 	}
 	

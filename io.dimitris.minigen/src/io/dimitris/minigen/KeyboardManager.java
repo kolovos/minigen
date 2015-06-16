@@ -15,7 +15,7 @@ public class KeyboardManager {
 			System.exit(-1);
 		}
 	}
-	
+
 	public void pressShiftHome() {
 		
 		// Release control

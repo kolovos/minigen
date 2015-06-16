@@ -69,7 +69,7 @@ public class Application {
 			popup.addSeparator();
 			
 			trayIcon = new TrayIcon( new ImageIcon("resources/application.png").getImage());
-			trayIcon.setToolTip("MiniGen: Press Ctrl+; to invoke");	
+			trayIcon.setToolTip("MiniGen: Press Ctrl+\\ to invoke");	
 			trayIcon.setPopupMenu(popup);
 			trayIcon.setImageAutoSize(true);
 			

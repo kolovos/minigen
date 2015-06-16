@@ -6,4 +6,8 @@ public static [%=fields.at(0)%] getInstance() {
 	}
 	return instance;
 }
+
+public [%=fields.at(0)%]() {
+	
+}
 	

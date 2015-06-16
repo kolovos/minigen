@@ -11,9 +11,9 @@
 
 package io.dimitris.minigen.ui;
 
+import io.dimitris.minigen.AppleScriptEngine;
 import io.dimitris.minigen.Generator;
 import io.dimitris.minigen.util.FileUtil;
-import io.dimitris.minigen.util.OperatingSystem;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -22,9 +22,9 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.print.PrinterException;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.script.ScriptException;
 import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
 import javax.swing.Action;
@@ -46,7 +46,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.TreeModelListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
-import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
@@ -55,6 +54,7 @@ import com.explodingpixels.macwidgets.LabeledComponentGroup;
 import com.explodingpixels.macwidgets.MacButtonFactory;
 import com.explodingpixels.macwidgets.MacUtils;
 import com.explodingpixels.macwidgets.UnifiedToolBar;
+import com.explodingpixels.widgets.plaf.EPTabbedPaneUI;
 
 public class TemplateBrowser extends JFrame{
 
@@ -100,7 +100,7 @@ public class TemplateBrowser extends JFrame{
 		
 		docArea = new JEditorPane();
 		docArea.setEditable(false);
-		docArea.setEditorKit(new HTMLEditorKit());
+		//docArea.setEditorKit(new HTMLEditorKit());
 		//docArea.setEditorKit(new StyledEditorKit());
 		
 		//sandboxArea = new JEditorPane();
@@ -112,6 +112,7 @@ public class TemplateBrowser extends JFrame{
 		
 		tree = new JTree();
 		tabbedPane = new JTabbedPane();
+		tabbedPane.setUI(new EPTabbedPaneUI());
 		setTitle("MiniGen - Template Browser");
 		setIconImage(Toolkit.getDefaultToolkit().createImage("resources/application.png"));
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
@@ -143,11 +144,33 @@ public class TemplateBrowser extends JFrame{
 		//toolbar.setRollover(true);
 		//toolbar.setFloatable(false);
 		
+		/*
+		JToggleButton leftButton = new JToggleButton(new ImageIcon("resources/text-html.png"));
+		 leftButton.putClientProperty("JButton.buttonType", "segmentedTextured");
+		 leftButton.putClientProperty("JButton.segmentPosition", "first");
+		 leftButton.setMinimumSize(new Dimension(50, 50));
+		 leftButton.setPreferredSize(new Dimension(50, 50));
+		 
+
+		 JToggleButton rightButton = new JToggleButton(new ImageIcon("resources/format-justify-left.png"));
+		 rightButton.putClientProperty("JButton.buttonType", "segmentedTextured");
+		 rightButton.putClientProperty("JButton.segmentPosition", "last");
+		 rightButton.setMinimumSize(new Dimension(50, 50));
+		 rightButton.setPreferredSize(new Dimension(50, 50));
+
+		 LabeledComponentGroup group = new LabeledComponentGroup("Group", leftButton, rightButton);
+		 */
+		
 		toolbar.addComponentToLeft(getUnifiedToolBarButton(new RefreshAction()));
 		toolbar.addComponentToLeft(getUnifiedToolBarButton(new OpenSelectedAction()));
 		toolbar.addComponentToLeft(getUnifiedToolBarButton(new PrintAction()));
 		//toolbar.addComponentToLeft(getUnifiedToolBarButton(new AlwaysOnTopAction()));
 		toolbar.addComponentToLeft(getUnifiedToolBarButton(new ShowHelpAction()));
+//		JCheckBox cb = new JCheckBox();
+//		cb.setPreferredSize(new Dimension(30, 30));
+//		cb.setMinimumSize(new Dimension(30, 30));
+//		cb.setMaximumSize(new Dimension(30, 30));
+//		toolbar.addComponentToLeft(new LabeledComponentGroup("Source", cb).getComponent());
 		
 		final JTextField searchField = new JTextField(10);
 		searchField.putClientProperty("JTextField.variant", "search");
@@ -159,6 +182,7 @@ public class TemplateBrowser extends JFrame{
 			}
 		});
 
+		//toolbar.addComponentToLeft(group.getComponent());
 		toolbar.addComponentToRight(new LabeledComponentGroup("Search", searchField).getComponent());
 		
 		getRootPane().setLayout(new BorderLayout());
@@ -177,7 +201,7 @@ public class TemplateBrowser extends JFrame{
 		tree.putClientProperty(
 				   "Quaqua.Tree.style", "sourceList"
 				);
-	}
+	} 
 	
 	protected AbstractButton getUnifiedToolBarButton(AbstractAction action) {
 		JButton button = new JButton(action);
@@ -205,24 +229,23 @@ public class TemplateBrowser extends JFrame{
 		}
 
 		public void actionPerformed(ActionEvent actionevent) {
+			
+			File file = null;
+			
+			if (tree.getSelectionPath() == null) file = new File("templates");
+			else file = ((File)tree.getSelectionPath().getLastPathComponent());
+			
 			try {
-				File file = ((File)tree.getSelectionPath().getLastPathComponent());
-				String command = "";
-				if (OperatingSystem.isWindows()) {
-					if (file.isFile()) {
-						command = "RunDll32.exe url.dll,FileProtocolHandler";
-					}
-					else {
-						command = "explorer";
-					}
-				}
-				else if (OperatingSystem.isLinux()) {
-					command = "xdg-open";
-				}
-				Runtime.getRuntime().exec(command + " " + file.getAbsolutePath());
-			} catch (IOException e) {
+				AppleScriptEngine.getInstance().eval(
+					"set thePath to POSIX file \"" + file.getAbsolutePath() + "\"", 
+					"tell application \"Finder\"",
+					"	reveal thePath",
+					"	activate",
+					"end tell");
+			} catch (ScriptException e) {
 				e.printStackTrace();
 			}
+			
 		}
 		
 	}
