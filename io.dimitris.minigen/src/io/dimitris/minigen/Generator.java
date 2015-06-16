@@ -115,7 +115,7 @@ public class Generator {
 				}
 			}
 			else {
-				Application.INSTANCE.displayErrorMessage("Template " + input.getTemplate()  + " not found", "Please add a template named " + input.getTemplate() + " under your templates folder and then click Refresh.");
+				GrowlEngine.getInstance().show("Template " + input.getTemplate()  + " not found", "Please add a template named " + input.getTemplate() + " under your templates folder and then refresh.");
 				return null;
 			}
 		}
@@ -147,7 +147,7 @@ public class Generator {
 			
 		}
 		catch (Exception ex) {
-			Application.INSTANCE.displayErrorMessage("Error invoking template: " + input.getTemplate(), ex.getLocalizedMessage());
+			GrowlEngine.getInstance().show("Error invoking template: " + input.getTemplate(), ex.getLocalizedMessage());
 		}
 		return generated;		
 	}

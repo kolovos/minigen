@@ -26,6 +26,7 @@ import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
@@ -67,8 +68,8 @@ public class Application {
 			popup.add(new ActionMenuItem(new ExitAction()));
 			
 			popup.addSeparator();
-			
-			trayIcon = new TrayIcon( new ImageIcon("resources/application.png").getImage());
+			System.out.println(( new File("resources/application.png").getAbsolutePath() + " -> " + new File("resources/application.png").exists()));
+			trayIcon = new TrayIcon( new ImageIcon(new File("resources/application.png").getAbsolutePath()).getImage());
 			trayIcon.setToolTip("MiniGen: Press Ctrl+\\ to invoke");	
 			trayIcon.setPopupMenu(popup);
 			trayIcon.setImageAutoSize(true);
@@ -240,7 +241,7 @@ public class Application {
 			if (generated == null) return;
 			
 			if (generated.trim().isEmpty()) {
-				displayWarningMessage("Nothing generated", "The template was invoked with no errors, but did not generate any text.");
+				GrowlEngine.getInstance().show("Nothing generated", "The template was invoked with no errors, but did not generate any text.");
 			}
 			else {
 				clipboardManager.setClipboardContents(generated);
@@ -255,22 +256,11 @@ public class Application {
 		}
 	}
 	
-	
-	
 	public static void main(String[] args) throws Exception {
-		
+		GrowlEngine.getInstance().show("Debug", (new File("in.txt")).getAbsolutePath());
 		Application.INSTANCE.launch();
 	}
 	
-	
-	public void displayErrorMessage(String title, String message) {
-		trayIcon.displayMessage(title, message, TrayIcon.MessageType.ERROR);
-	}
-
-	public void displayWarningMessage(String title, String message) {
-		trayIcon.displayMessage(title, message, TrayIcon.MessageType.WARNING);
-	}
-
 	public void onHotKey(int id) {
 		run();
 	}
