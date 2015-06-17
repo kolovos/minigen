@@ -14,6 +14,7 @@ package io.dimitris.minigen.ui;
 import io.dimitris.minigen.AppleScriptEngine;
 
 import java.awt.event.ActionEvent;
+import java.io.File;
 
 import javax.script.ScriptException;
 import javax.swing.AbstractAction;
@@ -22,7 +23,7 @@ import javax.swing.ImageIcon;
 public 	class ShowHelpAction extends AbstractAction {
 	
 	public ShowHelpAction() {
-		super("elp", new ImageIcon("resources/help-browser.png"));
+		super("Help", new ImageIcon(new File("resources/help-browser.png").getAbsolutePath()));
 		putValue(AbstractAction.SHORT_DESCRIPTION, "Online help");
 	}
 

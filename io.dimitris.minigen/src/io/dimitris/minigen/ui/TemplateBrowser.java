@@ -114,7 +114,7 @@ public class TemplateBrowser extends JFrame{
 		tabbedPane = new JTabbedPane();
 		tabbedPane.setUI(new EPTabbedPaneUI());
 		setTitle("MiniGen - Template Browser");
-		setIconImage(Toolkit.getDefaultToolkit().createImage("resources/application.png"));
+		setIconImage(Toolkit.getDefaultToolkit().createImage(new File("resources/application.png").getAbsolutePath()));
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		splitPane.putClientProperty("Quaqua.SplitPane.style","bar");
 		splitPane.setDividerSize(1);
@@ -224,7 +224,7 @@ public class TemplateBrowser extends JFrame{
 	class OpenSelectedAction extends AbstractAction {
 		
 		public OpenSelectedAction() {
-			super("Open", new ImageIcon("resources/folder.png"));
+			super("Open", new ImageIcon(new File("resources/folder.png").getAbsolutePath()));
 			putValue(Action.SHORT_DESCRIPTION, "Opens the selected folder/template");
 		}
 
@@ -232,7 +232,7 @@ public class TemplateBrowser extends JFrame{
 			
 			File file = null;
 			
-			if (tree.getSelectionPath() == null) file = new File("templates");
+			if (tree.getSelectionPath() == null) file = new File("templates").getAbsoluteFile();
 			else file = ((File)tree.getSelectionPath().getLastPathComponent());
 			
 			try {
@@ -253,7 +253,7 @@ public class TemplateBrowser extends JFrame{
 	class RefreshAction extends AbstractAction {
 		
 		public RefreshAction() {
-			super("Refresh", new ImageIcon("resources/refresh.png"));
+			super("Refresh", new ImageIcon(new File("resources/refresh.png").getAbsolutePath()));
 			putValue(AbstractAction.SHORT_DESCRIPTION, "Refreshes the templates index");
 		}
 
@@ -275,7 +275,7 @@ public class TemplateBrowser extends JFrame{
 	class PrintAction extends AbstractAction {
 		
 		public PrintAction() {
-			super("Print", new ImageIcon("resources/print.png"));
+			super("Print", new ImageIcon(new File("resources/print.png").getAbsolutePath()));
 			putValue(AbstractAction.SHORT_DESCRIPTION, "Prints the documentation for the current template");
 		}
 
@@ -293,7 +293,7 @@ public class TemplateBrowser extends JFrame{
 	class AlwaysOnTopAction extends AbstractAction {
 		
 		public AlwaysOnTopAction() {
-			super("Stay on top", new ImageIcon("resources/alwaysontop.png"));
+			super("Stay on top", new ImageIcon(new File("resources/alwaysontop.png").getAbsolutePath()));
 			putValue(AbstractAction.SHORT_DESCRIPTION, "Locks the window always on top");
 		}
 
@@ -344,9 +344,9 @@ public class TemplateBrowser extends JFrame{
 	
 	class BrowseTreeModelCellRenderer extends DefaultTreeCellRenderer {
 		
-		protected ImageIcon templateIcon = new ImageIcon("resources/emblem-system.png");
-		protected ImageIcon openFolderIcon = new ImageIcon("resources/openfolder.png");
-		protected ImageIcon closedFolderIcon = new ImageIcon("resources/closedfolder.png");
+		protected ImageIcon templateIcon = new ImageIcon(new File("resources/emblem-system.png").getAbsolutePath());
+		protected ImageIcon openFolderIcon = new ImageIcon(new File("resources/openfolder.png").getAbsolutePath());
+		protected ImageIcon closedFolderIcon = new ImageIcon(new File("resources/closedfolder.png").getAbsolutePath());
 		
 		public Component getTreeCellRendererComponent(JTree jtree, Object obj,
 				boolean flag, boolean flag1, boolean expanded, int i, boolean flag3) {
@@ -416,7 +416,7 @@ public class TemplateBrowser extends JFrame{
 		}
 
 		public Object getRoot() {
-			return new File("templates");
+			return new File("templates").getAbsoluteFile();
 		}
 
 		public boolean isLeaf(Object obj) {
@@ -434,4 +434,3 @@ public class TemplateBrowser extends JFrame{
 	}
 	
 }
- 

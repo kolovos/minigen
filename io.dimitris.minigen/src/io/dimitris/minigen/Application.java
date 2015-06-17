@@ -257,7 +257,7 @@ public class Application {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		GrowlEngine.getInstance().show("Debug", (new File("in.txt")).getAbsolutePath());
+//		GrowlEngine.getInstance().show("Debug", (new File("/Users/dkolovos/git/minigen/io.dimitris.minigen/dist/Minigen.app/Contents/Java/templates/")).exists() + "");
 		Application.INSTANCE.launch();
 	}
 	

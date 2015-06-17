@@ -70,11 +70,13 @@ public class Generator {
 	
 	public void loadTemplates() {
 		templates.clear();
-		File file = new File("templates");
+		File file = new File("templates").getAbsoluteFile();
 		addTemplate(file);
 	}
 	
 	public void addTemplate(File file) {
+		System.out.println("file -> " + file.getAbsolutePath() + " - " + file.exists());
+		
 		if (file.isDirectory()) {
 			for (File f : file.listFiles()) {
 				addTemplate(f);
