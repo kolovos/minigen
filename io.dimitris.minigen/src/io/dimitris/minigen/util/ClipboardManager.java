@@ -1,4 +1,4 @@
-package io.dimitris.minigen;
+package io.dimitris.minigen.util;
 
 import java.awt.Robot;
 import java.awt.Toolkit;
@@ -88,7 +88,7 @@ public class ClipboardManager {
 		return null;
 	}
 	
-	protected void setClipboardContents(String contents) {
+	public void setClipboardContents(String contents) {
 	
 		String script = "set the clipboard to \"" + contents.replace("\"", "\\\"") + "\"";
 		

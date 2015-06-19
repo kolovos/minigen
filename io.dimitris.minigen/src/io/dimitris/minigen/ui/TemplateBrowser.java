@@ -11,8 +11,8 @@
 
 package io.dimitris.minigen.ui;
 
-import io.dimitris.minigen.AppleScriptEngine;
 import io.dimitris.minigen.Generator;
+import io.dimitris.minigen.util.AppleScriptEngine;
 import io.dimitris.minigen.util.FileUtil;
 
 import java.awt.BorderLayout;
@@ -394,9 +394,7 @@ public class TemplateBrowser extends JFrame{
 			for (File child : file.listFiles()) {
 				if (child.isFile()) {
 					if (Generator.getInstance().supports(child)) {
-					//if (child.getName().endsWith(".egl") || child.getName().endsWith("jmf") || child.getName().endsWith("vm")) {
 						children.add(child);
-					//}
 					}
 				}
 			}

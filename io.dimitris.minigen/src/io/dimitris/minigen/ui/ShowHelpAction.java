@@ -11,7 +11,7 @@
 
 package io.dimitris.minigen.ui;
 
-import io.dimitris.minigen.AppleScriptEngine;
+import io.dimitris.minigen.util.AppleScriptEngine;
 
 import java.awt.event.ActionEvent;
 import java.io.File;

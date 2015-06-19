@@ -1,4 +1,4 @@
-package io.dimitris.minigen;
+package io.dimitris.minigen.util;
 
 import java.awt.Robot;
 import java.awt.event.KeyEvent;

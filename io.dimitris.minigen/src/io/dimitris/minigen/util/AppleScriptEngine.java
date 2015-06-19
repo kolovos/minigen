@@ -1,4 +1,4 @@
-package io.dimitris.minigen;
+package io.dimitris.minigen.util;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;

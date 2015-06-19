@@ -17,7 +17,12 @@ import io.dimitris.minigen.ui.GlobalHotKeyListener;
 import io.dimitris.minigen.ui.OpenTemplatesFolderAction;
 import io.dimitris.minigen.ui.ShowHelpAction;
 import io.dimitris.minigen.ui.TemplateBrowser;
+import io.dimitris.minigen.util.AppleScriptEngine;
+import io.dimitris.minigen.util.ClipboardManager;
+import io.dimitris.minigen.util.GrowlEngine;
+import io.dimitris.minigen.util.KeyboardManager;
 
+import java.awt.Frame;
 import java.awt.Image;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
@@ -28,6 +33,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+import javax.script.ScriptException;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 
@@ -68,8 +74,9 @@ public class Application {
 			popup.add(new ActionMenuItem(new ExitAction()));
 			
 			popup.addSeparator();
-			System.out.println(( new File("resources/application.png").getAbsolutePath() + " -> " + new File("resources/application.png").exists()));
+			
 			trayIcon = new TrayIcon( new ImageIcon(new File("resources/application.png").getAbsolutePath()).getImage());
+			
 			trayIcon.setToolTip("MiniGen: Press Ctrl+\\ to invoke");	
 			trayIcon.setPopupMenu(popup);
 			trayIcon.setImageAutoSize(true);
@@ -110,6 +117,11 @@ public class Application {
 
 		public void actionPerformed(ActionEvent actionevent) {
 			browser.setVisible(true);
+			try {
+				AppleScriptEngine.getInstance().eval("tell me to activate");
+			} catch (ScriptException e) {
+				e.printStackTrace();
+			}
 		}
 		
 	}

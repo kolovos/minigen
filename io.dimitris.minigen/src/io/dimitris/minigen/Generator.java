@@ -18,6 +18,7 @@ import io.dimitris.minigen.delegates.JmfGeneratorDelegate;
 import io.dimitris.minigen.delegates.VelocityGeneratorDelegate;
 import io.dimitris.minigen.model.Input;
 import io.dimitris.minigen.ui.SelectTemplateDialog;
+import io.dimitris.minigen.util.GrowlEngine;
 
 import java.io.File;
 import java.util.ArrayList;
