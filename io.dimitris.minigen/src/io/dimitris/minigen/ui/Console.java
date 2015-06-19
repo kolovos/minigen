@@ -59,10 +59,6 @@ public class Console extends JFrame {
 		textArea.setCaretPosition(textArea.getText().length() - 1);
 	}
 	
-	public void appear() {
-		setVisible(true);
-	}
-	
 	public void clear() {
 		textArea.setText("");
 	}

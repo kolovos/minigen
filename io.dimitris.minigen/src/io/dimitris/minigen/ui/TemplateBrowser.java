@@ -32,6 +32,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -56,7 +57,7 @@ import com.explodingpixels.macwidgets.MacUtils;
 import com.explodingpixels.macwidgets.UnifiedToolBar;
 import com.explodingpixels.widgets.plaf.EPTabbedPaneUI;
 
-public class TemplateBrowser extends JFrame{
+public class TemplateBrowser extends JFrame {
 
 	protected JTree tree;
 	protected JTabbedPane tabbedPane;
@@ -162,7 +163,7 @@ public class TemplateBrowser extends JFrame{
 		 */
 		
 		toolbar.addComponentToLeft(getUnifiedToolBarButton(new RefreshAction()));
-		toolbar.addComponentToLeft(getUnifiedToolBarButton(new OpenSelectedAction()));
+		toolbar.addComponentToLeft(getUnifiedToolBarButton(new RevealSelectedAction()));
 		toolbar.addComponentToLeft(getUnifiedToolBarButton(new PrintAction()));
 		//toolbar.addComponentToLeft(getUnifiedToolBarButton(new AlwaysOnTopAction()));
 		toolbar.addComponentToLeft(getUnifiedToolBarButton(new ShowHelpAction()));
@@ -221,11 +222,11 @@ public class TemplateBrowser extends JFrame{
 		return scrollPane;
 	}
 	
-	class OpenSelectedAction extends AbstractAction {
+	class RevealSelectedAction extends AbstractAction {
 		
-		public OpenSelectedAction() {
-			super("Open", new ImageIcon(new File("resources/folder.png").getAbsolutePath()));
-			putValue(Action.SHORT_DESCRIPTION, "Opens the selected folder/template");
+		public RevealSelectedAction() {
+			super("Reveal", new ImageIcon(new File("resources/reveal.png").getAbsolutePath()));
+			putValue(Action.SHORT_DESCRIPTION, "Reveals the selected folder/template in Finder");
 		}
 
 		public void actionPerformed(ActionEvent actionevent) {

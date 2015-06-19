@@ -22,7 +22,7 @@ import javax.swing.ImageIcon;
 public class OpenTemplatesFolderAction extends AbstractAction {
 	
 	public OpenTemplatesFolderAction() {
-		super("Open templates folder", new ImageIcon("resources/templatesfolder.png"));
+		super("Reveal Templates Folder", new ImageIcon("resources/templatesfolder.png"));
 		putValue(AbstractAction.SHORT_DESCRIPTION, "Opens the templates folder");
 	}
 

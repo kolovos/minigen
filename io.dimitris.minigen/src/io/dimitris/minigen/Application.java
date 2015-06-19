@@ -66,7 +66,7 @@ public class Application {
 
 			final PopupMenu popup = new PopupMenu();
 			popup.add(new ActionMenuItem(new ShowBrowserAction()));
-			popup.add(new ActionMenuItem(new ShowConsoleAction()));
+			//popup.add(new ActionMenuItem(new ShowConsoleAction()));
 			popup.add(new ActionMenuItem(new RefreshAction()));
 			popup.add(new ActionMenuItem(new OpenTemplatesFolderAction()));
 			popup.addSeparator();
@@ -111,8 +111,8 @@ public class Application {
 	class ShowBrowserAction extends AbstractAction {
 		
 		public ShowBrowserAction() {
-			super("Show templates browser", new ImageIcon("resources/browser.gif"));
-			putValue(AbstractAction.SHORT_DESCRIPTION, "Show templates browser");
+			super("Show Template Browser", new ImageIcon("resources/browser.gif"));
+			putValue(AbstractAction.SHORT_DESCRIPTION, "Show template browser");
 		}
 
 		public void actionPerformed(ActionEvent actionevent) {
@@ -129,7 +129,7 @@ public class Application {
 	class RefreshAction extends AbstractAction {
 		
 		public RefreshAction() {
-			super("Refresh templates", new ImageIcon("resources/refresh.gif"));
+			super("Refresh Templates", new ImageIcon("resources/refresh.gif"));
 			putValue(AbstractAction.SHORT_DESCRIPTION, "Refreshes the templates");
 		}
 
@@ -167,18 +167,22 @@ public class Application {
 		
 	}
 	
+	/*
 	class ShowConsoleAction extends AbstractAction {
 		
 		public ShowConsoleAction() {
-			super("Show console", new ImageIcon("resources/console.gif"));
+			super("Show Console", new ImageIcon("resources/console.gif"));
 			putValue(AbstractAction.SHORT_DESCRIPTION, "Show console");
 		}
 
 		public void actionPerformed(ActionEvent actionevent) {
-			console.appear();
+			console.setVisible(true);
+			try {
+				AppleScriptEngine.getInstance().eval("tell me to activate");
+			} catch (ScriptException e) {}
 		}
 		
-	}
+	}*/
 	/*
 	protected boolean isTextSelected() {
 		try {
