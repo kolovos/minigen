@@ -89,8 +89,16 @@ public class ClipboardManager {
 	}
 	
 	public void setClipboardContents(String contents) {
-	
-		String script = "set the clipboard to \"" + contents.replace("\"", "\\\"") + "\"";
+		
+		String[] lines = contents.split("\n");
+		String script = "set the clipboard to ";
+		
+		for (int i=0;i<lines.length;i++) {
+			script = script + "\"" + lines[i].replace("\r", "").replace("\\", "\\\\").replace("\"", "\\\"") + "\"";
+			if (i<lines.length-1) {
+				script = script + " & return & ";
+			}
+		}
 		
 		try {
 			AppleScriptEngine.getInstance().eval(script);
@@ -98,23 +106,6 @@ public class ClipboardManager {
 			e.printStackTrace();
 		}
 	
-	}
-	
-	public void pressCtrlC(Robot robot) {
-		robot.keyPress(KeyEvent.VK_META);
-		robot.keyPress(KeyEvent.VK_C);
-		delay(robot);
-		robot.keyRelease(KeyEvent.VK_META);
-		robot.keyRelease(KeyEvent.VK_C);
-		delay(robot);
-	}
-	
-	public void delay(Robot robot) {
-		delay(robot, 1);
-	}
-	
-	public void delay(Robot robot, int times) {
-		robot.delay(50 * times);
 	}
 	
 }

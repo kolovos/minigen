@@ -134,17 +134,21 @@ public class Generator {
 				generated = delegate.generate(template, input.getText(), input.getDataset());
 				
 				String nl = System.getProperty("line.separator");
-				String generatedWithLeadingWhitespace = "";
+				StringBuffer buffer = new StringBuffer();
+				//String generatedWithLeadingWhitespace = "";
 				String[] lines = generated.split(nl);
 				int lineIndex = 0;
 				for (String line : lines) {
 					if (lineIndex < lines.length) {
-						generatedWithLeadingWhitespace += 
-							input.getLeadingWhitespace() + line + nl;
+						buffer.append(input.getLeadingWhitespace());
+						buffer.append(line);
+						buffer.append(System.lineSeparator());
+						//generatedWithLeadingWhitespace += 
+						//	input.getLeadingWhitespace() + line + nl;
 					}
 				}
 				
-				generated = generatedWithLeadingWhitespace;
+				generated = buffer.toString(); //generatedWithLeadingWhitespace;
 				
 			}
 			
