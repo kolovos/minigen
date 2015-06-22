@@ -1,9 +1,6 @@
 package io.dimitris.minigen.ui;
 
-import io.dimitris.minigen.util.OperatingSystem;
-
 import java.awt.Robot;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -21,18 +18,6 @@ public class GlobalHotKey {
 	
 	public GlobalHotKey() {
 
-	}
-	
-	protected void releaseHotKey() {
-		if (OperatingSystem.isWindows()) {
-			robot.keyRelease(KeyEvent.VK_CONTROL);
-			robot.keyRelease(KeyEvent.VK_ALT);
-			robot.keyRelease(KeyEvent.VK_Q);			
-		}
-		else if (OperatingSystem.isLinux()) {
-			robot.keyRelease(KeyEvent.VK_CONTROL);
-			robot.keyRelease(key);
-		}
 	}
 	
 	public void addGlobalHotKeyListener(GlobalHotKeyListener listener) {
