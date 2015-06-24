@@ -11,7 +11,7 @@
 		
 		<delete dir="bin/MiniGen.app"/>
 
-		<bundleapp outputdirectory="dist" name="Minigen" displayname="Minigen" identifier="Minigen" mainclassname="io.dimitris.minigen.Application" icon="resources/process.icns">
+		<bundleapp outputdirectory="dist" name="Minigen" displayname="Minigen" identifier="Minigen" mainclassname="io.dimitris.minigen.Application" icon="resources/minigen.icns">
 			<classpath file="dist/io.dimitris.minigen.jar"/>
 			<classpath file="lib/freemarker.jar"/>
 			<classpath file="lib/epsilon-1.3-core.jar"/>
