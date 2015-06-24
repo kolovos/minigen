@@ -22,6 +22,8 @@ import java.io.PrintStream;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
+import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
+import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 
 public class EglGeneratorDelegate implements IGeneratorDelegate {
@@ -59,7 +61,19 @@ public class EglGeneratorDelegate implements IGeneratorDelegate {
 			
 		}));
 		
-		return (String) module.execute();
+		try {
+			return (String) module.execute();
+		}
+		catch (Exception ex) {
+			String message = ex.getMessage();
+			if (ex instanceof EglRuntimeException) {
+				message = ex.getCause().getMessage();
+				if (ex.getCause() instanceof EolInternalException) {
+					message = ex.getCause().getCause().getLocalizedMessage();
+				}
+			}
+			throw new Exception(message + "\n" + module.getContext().getExecutorFactory().getStackTraceManager().getStackTraceAsString());
+		}
 	}
 
 	public boolean supports(File file) {

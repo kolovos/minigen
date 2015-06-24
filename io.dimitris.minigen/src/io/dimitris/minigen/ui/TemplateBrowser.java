@@ -166,13 +166,14 @@ public class TemplateBrowser extends JFrame {
 		toolbar.addComponentToLeft(getUnifiedToolBarButton(new RevealSelectedAction()));
 		toolbar.addComponentToLeft(getUnifiedToolBarButton(new PrintAction()));
 		//toolbar.addComponentToLeft(getUnifiedToolBarButton(new AlwaysOnTopAction()));
-		toolbar.addComponentToLeft(getUnifiedToolBarButton(new ShowHelpAction()));
+		toolbar.addComponentToRight(getUnifiedToolBarButton(new ShowHelpAction()));
 //		JCheckBox cb = new JCheckBox();
 //		cb.setPreferredSize(new Dimension(30, 30));
 //		cb.setMinimumSize(new Dimension(30, 30));
 //		cb.setMaximumSize(new Dimension(30, 30));
 //		toolbar.addComponentToLeft(new LabeledComponentGroup("Source", cb).getComponent());
 		
+		/*
 		final JTextField searchField = new JTextField(10);
 		searchField.putClientProperty("JTextField.variant", "search");
 		searchField.putClientProperty("JTextField.Search.CancelAction", new AbstractAction("ClearSearch")
@@ -185,6 +186,7 @@ public class TemplateBrowser extends JFrame {
 
 		//toolbar.addComponentToLeft(group.getComponent());
 		toolbar.addComponentToRight(new LabeledComponentGroup("Search", searchField).getComponent());
+		*/
 		
 		getRootPane().setLayout(new BorderLayout());
 		getRootPane().add(toolbar.getComponent(), BorderLayout.NORTH);

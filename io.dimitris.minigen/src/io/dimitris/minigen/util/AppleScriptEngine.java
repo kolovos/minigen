@@ -26,8 +26,14 @@ public class AppleScriptEngine {
 		for (String line : lines) {
 			script = script + line + "\n";
 		}
-		System.out.println(script);
-		engine.eval(script);
+		try {
+			engine.eval(script);
+		}
+		catch (ScriptException ex) {
+			System.out.println(ex.getMessage());
+			System.out.println(script);
+			throw ex;
+		}
 	}
 	
 	

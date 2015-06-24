@@ -90,7 +90,7 @@ public class ClipboardManager {
 	
 	public void setClipboardContents(String contents) {
 		
-		String[] lines = contents.split("\n");
+		String[] lines = String.valueOf(contents).split("\n");
 		String script = "set the clipboard to ";
 		
 		for (int i=0;i<lines.length;i++) {

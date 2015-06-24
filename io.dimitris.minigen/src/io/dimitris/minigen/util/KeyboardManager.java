@@ -19,14 +19,15 @@ public class KeyboardManager {
 	public void pressShiftHome() {
 		
 		// Release control
-		robot.keyPress(KeyEvent.VK_CONTROL);
-		delay(robot, 4);
-		robot.keyRelease(KeyEvent.VK_CONTROL);
+		//robot.keyPress(KeyEvent.VK_CONTROL);
+		//delay(robot, 4);
+		//robot.keyRelease(KeyEvent.VK_CONTROL);
+		//robot.keyRelease(KeyEvent.VK_BACK_SLASH);
 		
 		robot.keyPress(KeyEvent.VK_META);
 		robot.keyPress(KeyEvent.VK_SHIFT);
 		robot.keyPress(KeyEvent.VK_LEFT);
-		delay(robot, 5);
+		delay(5);
 		robot.keyRelease(KeyEvent.VK_LEFT);
 		robot.keyRelease(KeyEvent.VK_SHIFT);
 		robot.keyRelease(KeyEvent.VK_META);
@@ -35,25 +36,25 @@ public class KeyboardManager {
 	public void pressCtrlC() {
 		robot.keyPress(KeyEvent.VK_META);
 		robot.keyPress(KeyEvent.VK_C);
-		delay(robot);
+		delay();
 		robot.keyRelease(KeyEvent.VK_META);
 		robot.keyRelease(KeyEvent.VK_C);
-		delay(robot);
+		delay();
 	}
 
 	public void pressCtrlV() {
 		robot.keyPress(KeyEvent.VK_META);
 		robot.keyPress(KeyEvent.VK_V);
-		delay(robot);
+		delay();
 		robot.keyRelease(KeyEvent.VK_META);
 		robot.keyRelease(KeyEvent.VK_V);
 	}
 	
-	public void delay(Robot robot) {
-		delay(robot, 1);
+	public void delay() {
+		delay(1);
 	}
 	
-	public void delay(Robot robot, int times) {
+	public void delay(int times) {
 		robot.delay(50 * times);
 	}
 }

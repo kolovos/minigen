@@ -55,7 +55,11 @@ public class Application {
 		} catch (Exception e) {}
 		System.exit(0);
 	}
-		
+	
+	public TrayIcon getTrayIcon() {
+		return trayIcon;
+	}
+	
 	public void launch() {
 		
 		clipboardManager = new ClipboardManager(Toolkit.getDefaultToolkit().getSystemClipboard());
@@ -75,7 +79,7 @@ public class Application {
 			
 			popup.addSeparator();
 			
-			trayIcon = new TrayIcon( new ImageIcon(new File("resources/application.png").getAbsolutePath()).getImage());
+			trayIcon = new TrayIcon( new ImageIcon(new File("resources/process.png").getAbsolutePath()).getImage());
 			
 			trayIcon.setToolTip("MiniGen: Press Ctrl+\\ to invoke");	
 			trayIcon.setPopupMenu(popup);
@@ -257,7 +261,7 @@ public class Application {
 			if (generated == null) return;
 			
 			if (generated.trim().isEmpty()) {
-				GrowlEngine.getInstance().show("Nothing generated", "The template was invoked with no errors, but did not generate any text.");
+				GrowlEngine.getInstance().show("Zilch generated", "The template executed without errors, but did not generate any text.");
 			}
 			else {
 				clipboardManager.setClipboardContents(generated);
@@ -277,7 +281,4 @@ public class Application {
 		Application.INSTANCE.launch();
 	}
 	
-	public void onHotKey(int id) {
-		run();
-	}
 }

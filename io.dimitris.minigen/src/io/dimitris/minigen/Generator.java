@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
+import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
+
 public class Generator {
 	
 	public HashMap<String, String> templates = new HashMap<String, String>();
@@ -76,8 +78,6 @@ public class Generator {
 	}
 	
 	public void addTemplate(File file) {
-		System.out.println("file -> " + file.getAbsolutePath() + " - " + file.exists());
-		
 		if (file.isDirectory()) {
 			for (File f : file.listFiles()) {
 				addTemplate(f);
@@ -133,10 +133,9 @@ public class Generator {
 			if (delegate != null) {
 				generated = delegate.generate(template, input.getText(), input.getDataset());
 				
-				String nl = System.getProperty("line.separator");
 				StringBuffer buffer = new StringBuffer();
 				//String generatedWithLeadingWhitespace = "";
-				String[] lines = generated.split(nl);
+				String[] lines = generated.split(System.lineSeparator());
 				int lineIndex = 0;
 				for (String line : lines) {
 					if (lineIndex < lines.length) {
@@ -151,10 +150,10 @@ public class Generator {
 				generated = buffer.toString(); //generatedWithLeadingWhitespace;
 				
 			}
-			
 		}
+		
 		catch (Exception ex) {
-			GrowlEngine.getInstance().show("Error invoking template: " + input.getTemplate(), ex.getLocalizedMessage());
+			GrowlEngine.getInstance().show("Oh, snap!", ex.getMessage().replace("\t", " "));
 		}
 		return generated;		
 	}
