@@ -9,7 +9,8 @@
 			<fileset dir="bin"/>
 		</jar>
 		
-		<delete dir="bin/MiniGen.app"/>
+		<delete file="dist/Minigen.dmg"/>
+		<delete dir="dist/Minigen.app"/>
 
 		<bundleapp outputdirectory="dist" name="Minigen" displayname="Minigen" identifier="Minigen" mainclassname="io.dimitris.minigen.Application" icon="resources/minigen.icns">
 			<classpath file="dist/io.dimitris.minigen.jar"/>
@@ -33,7 +34,11 @@
 
 		<copydir src="resources" dest="dist/Minigen.app/Contents/Java/resources"/>
 		<copydir src="templates" dest="dist/Minigen.app/Contents/Java/templates"/>
-
+		
+		<exec executable="hdiutil">
+			<arg line="create -srcfolder dist/Minigen.app dist/Minigen.dmg"/>
+		</exec>
+		
 	</target>
 
 </project>

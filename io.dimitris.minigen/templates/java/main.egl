@@ -1,0 +1,7 @@
+public static void main(String[] args) throws Exception {
+	new [%=fields[0]%]().run();
+}
+
+protected void run() throws Exception {
+
+}

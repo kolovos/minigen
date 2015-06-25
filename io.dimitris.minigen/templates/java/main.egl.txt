@@ -1,0 +1,3 @@
+Creates a main and a run method.
+
+***main:App***
