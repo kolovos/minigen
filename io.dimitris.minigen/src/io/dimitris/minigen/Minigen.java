@@ -12,8 +12,8 @@
 package io.dimitris.minigen;
 
 import io.dimitris.minigen.ui.Console;
-import io.dimitris.minigen.ui.GlobalHotKey;
-import io.dimitris.minigen.ui.GlobalHotKeyListener;
+import io.dimitris.minigen.ui.GlobalKeyComboListener;
+import io.dimitris.minigen.ui.GlobalKeyComboManager;
 import io.dimitris.minigen.ui.OpenTemplatesFolderAction;
 import io.dimitris.minigen.ui.ShowHelpAction;
 import io.dimitris.minigen.ui.TemplateBrowser;
@@ -22,7 +22,6 @@ import io.dimitris.minigen.util.ClipboardManager;
 import io.dimitris.minigen.util.GrowlEngine;
 import io.dimitris.minigen.util.KeyboardManager;
 
-import java.awt.Frame;
 import java.awt.Image;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
@@ -37,9 +36,9 @@ import javax.script.ScriptException;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 
-public class Application {
-	
-	public static Application INSTANCE = new Application();
+import org.jnativehook.keyboard.NativeKeyEvent;
+
+public class Minigen {
 	
 	protected SystemTray systemTray;
 	protected TrayIcon trayIcon;
@@ -51,7 +50,7 @@ public class Application {
 	
 	public void shutdown() {
 		try {
-			GlobalHotKey.INSTANCE.teardown();
+			GlobalKeyComboManager.INSTANCE.teardown();
 		} catch (Exception e) {}
 		System.exit(0);
 	}
@@ -70,7 +69,6 @@ public class Application {
 
 			final PopupMenu popup = new PopupMenu();
 			popup.add(new ActionMenuItem(new ShowBrowserAction()));
-			//popup.add(new ActionMenuItem(new ShowConsoleAction()));
 			popup.add(new ActionMenuItem(new RefreshAction()));
 			popup.add(new ActionMenuItem(new OpenTemplatesFolderAction()));
 			popup.addSeparator();
@@ -81,29 +79,64 @@ public class Application {
 			
 			trayIcon = new TrayIcon( new ImageIcon(new File("resources/process.png").getAbsolutePath()).getImage());
 			
-			trayIcon.setToolTip("MiniGen: Press Ctrl+\\ to invoke");	
+			trayIcon.setToolTip("Press Ctrl+\\ or Ctrl+.");	
 			trayIcon.setPopupMenu(popup);
 			trayIcon.setImageAutoSize(true);
 			
 			console = Console.INSTANCE;
 			browser = new TemplateBrowser();
 			
-			try {
-				Generator.getInstance().generate("hello:Mitsos");
-			}
-			catch (Exception ex) {
-				// Ignore
-			}
+			try { Generator.getInstance().generate("hello:Mitsos"); }
+			catch (Exception ex) {}
 			
 			try {
 				systemTray.add(trayIcon);
-				GlobalHotKey.INSTANCE.setup();
 				
-				GlobalHotKey.INSTANCE.addGlobalHotKeyListener(new GlobalHotKeyListener() {
-					public void hotKeyPressed() {
-						run();
+				GlobalKeyComboManager.INSTANCE.addGlobalHotKeyListener(new GlobalKeyComboListener() {
+					public void keyComboPressed() {
+						run(true);
+					}
+					
+					@Override
+					public int getKey() {
+						return NativeKeyEvent.VC_BACK_SLASH;
+					}
+					
+					@Override
+					public int getModifier() {
+						return NativeKeyEvent.VC_CONTROL_L;
+					}
+
+					@Override
+					public void keyComboStateChanged(int state) {
+						getTrayIcon().setImage(new ImageIcon(new File("resources/process" + state + ".png").getAbsolutePath()).getImage());
+					}
+					
+				});
+				
+				GlobalKeyComboManager.INSTANCE.addGlobalHotKeyListener(new GlobalKeyComboListener() {
+					
+					@Override
+					public void keyComboStateChanged(int state) {
+						getTrayIcon().setImage(new ImageIcon(new File("resources/process" + state + ".png").getAbsolutePath()).getImage());
+					}
+					
+					@Override
+					public void keyComboPressed() {
+						run(false);	
+					}
+					
+					@Override
+					public int getModifier() {
+						return NativeKeyEvent.VC_CONTROL_L;
+					}
+					
+					@Override
+					public int getKey() {
+						return NativeKeyEvent.VC_PERIOD;
 					}
 				});
+				
 				
 			} catch (Exception e) {
 				shutdown();
@@ -244,7 +277,7 @@ public class Application {
 
 	
 	
-	public void run() {
+	public void run(boolean selectLine) {
 		
 		console.clear();
 		String oldData = null;
@@ -252,10 +285,11 @@ public class Application {
 		try {
 			
 			oldData = clipboardManager.getClipboardContents();
-			keyboardManager.pressShiftHome();	
+			if (selectLine) keyboardManager.pressCommandShiftLeft();	
 			keyboardManager.pressCtrlC();
 			
 			String data = clipboardManager.getClipboardContents();
+			
 			String generated = Generator.getInstance().generate(data.toString());
 			
 			if (generated == null) return;
@@ -277,8 +311,7 @@ public class Application {
 	}
 	
 	public static void main(String[] args) throws Exception {
-//		GrowlEngine.getInstance().show("Debug", (new File("/Users/dkolovos/git/minigen/io.dimitris.minigen/dist/Minigen.app/Contents/Java/templates/")).exists() + "");
-		Application.INSTANCE.launch();
+		new Minigen().launch();
 	}
 	
 }

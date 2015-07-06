@@ -16,7 +16,7 @@ public class KeyboardManager {
 		}
 	}
 
-	public void pressShiftHome() {
+	public void pressCommandShiftLeft() {
 		
 		// Release control
 		//robot.keyPress(KeyEvent.VK_CONTROL);
@@ -39,7 +39,7 @@ public class KeyboardManager {
 		delay();
 		robot.keyRelease(KeyEvent.VK_META);
 		robot.keyRelease(KeyEvent.VK_C);
-		delay();
+		delay(5);
 	}
 
 	public void pressCtrlV() {

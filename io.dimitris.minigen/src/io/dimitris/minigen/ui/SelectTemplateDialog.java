@@ -13,6 +13,7 @@ package io.dimitris.minigen.ui;
 
 
 import io.dimitris.minigen.Generator;
+import io.dimitris.minigen.util.AppleScriptEngine;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -25,6 +26,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 
+import javax.script.ScriptException;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -45,7 +47,7 @@ import javax.swing.event.ListDataListener;
 //Originally a JDialog but changed to JFrame 
 //because in Linux if a JDialog is closed the focus
 //is not returned to the previous window
-public class SelectTemplateDialog extends JFrame {
+public class SelectTemplateDialog extends JDialog {
 	
 	protected JList list;
 	protected JTextField field;
@@ -71,7 +73,7 @@ public class SelectTemplateDialog extends JFrame {
 	
 	public SelectTemplateDialog() {
 		super();
-		setTitle("MiniGen :: Select Template");
+		setTitle("Minigen - Select Template");
 		field = new JTextField();
 		field.addKeyListener(new FieldKeyListener());
 		field.addKeyListener(new EscapeKeyListener());
@@ -102,7 +104,7 @@ public class SelectTemplateDialog extends JFrame {
 		//System.err.println("Upon popup: " + list.getSelectedValue());
 		
 		this.setBounds(100, 100, 300, 500);
-		//this.setModal(true);
+		this.setModal(true);
 		this.setVisible(true);
 		field.requestFocus();
 		while (this.isVisible()) {
@@ -117,6 +119,11 @@ public class SelectTemplateDialog extends JFrame {
 	
 	public void disappear() {
 		this.setVisible(false);
+		try {
+			AppleScriptEngine.getInstance().eval("tell me to close");
+		} catch (ScriptException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public JPanel createLabeledComponent(String label, JComponent component) {

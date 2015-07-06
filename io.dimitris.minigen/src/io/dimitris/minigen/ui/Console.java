@@ -32,7 +32,7 @@ public class Console extends JFrame {
 	
 	private Console() {
 		super();
-		setTitle("MiniGen :: Console");
+		setTitle("Minigen - Console");
 		setIconImage(Toolkit.getDefaultToolkit().createImage("resources/application.png"));
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		setBounds(d.width - 350, d.height - 350, 250, 250);

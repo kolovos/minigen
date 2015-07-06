@@ -114,7 +114,7 @@ public class TemplateBrowser extends JFrame {
 		tree = new JTree();
 		tabbedPane = new JTabbedPane();
 		tabbedPane.setUI(new EPTabbedPaneUI());
-		setTitle("MiniGen - Template Browser");
+		setTitle("Minigen - Template Browser");
 		setIconImage(Toolkit.getDefaultToolkit().createImage(new File("resources/application.png").getAbsolutePath()));
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		splitPane.putClientProperty("Quaqua.SplitPane.style","bar");

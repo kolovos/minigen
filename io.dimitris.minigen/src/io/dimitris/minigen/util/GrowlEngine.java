@@ -19,7 +19,7 @@ public class GrowlEngine {
 	
 	public void show(String title, String description) {
 		
-		String applicationName = "MiniGen";
+		String applicationName = "Minigen";
 		
 		try {
 			AppleScriptEngine.getInstance().eval(

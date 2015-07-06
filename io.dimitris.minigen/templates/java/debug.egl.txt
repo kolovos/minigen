@@ -1,3 +1,3 @@
-Helps debugging the current expression:
+Helps debugging a Java expression.
 
 ***debug:a==b***

@@ -71,14 +71,23 @@ public class ClipboardManager {
 		DataFlavor inputStreamFlavor = getInputStreamFlavor();
 		if (inputStreamFlavor != null) {
 			Object data = clipboard.getData(inputStreamFlavor);
+			BufferedReader bufferedReader = null;
 			if (data instanceof StringReader) {
 				StringReader stringReader = (StringReader) data;
-				return new BufferedReader(stringReader).readLine();
+				bufferedReader = new BufferedReader(stringReader);
 			}
 			else {
 				InputStream inputStream = (InputStream) data;
-				return new BufferedReader(new InputStreamReader(inputStream)).readLine();
+				bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 			}
+			StringBuffer stringBuffer = new StringBuffer();
+			String line;
+			while((line = bufferedReader.readLine()) != null) {
+				stringBuffer.append(line);
+				stringBuffer.append(System.lineSeparator());
+			}
+			bufferedReader.close();
+			return stringBuffer.toString();
 		}
 		
 		DataFlavor stringFlavor = getStringFlavor();
