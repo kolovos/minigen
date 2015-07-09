@@ -1,1 +1,0 @@
-class [%=fields.at(0)%] extends AbstractAction {		public [%=fields.at(0)%]() {		super("[%=fields.at(1)%]", new ImageIcon("[%=fields.at(2)%]"));		putValue(AbstractAction.SHORT_DESCRIPTION, "[%=fields.at(3).ifUndefined(fields.at(1))%]");	}	public void actionPerformed(ActionEvent actionevent) {			}	}

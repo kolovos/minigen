@@ -1,4 +1,4 @@
-Generates an HTML table
+Generates a HTML table.
 
 ***
 htable:

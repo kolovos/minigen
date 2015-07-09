@@ -11,7 +11,6 @@
 
 package io.dimitris.minigen;
 
-import io.dimitris.minigen.ui.Console;
 import io.dimitris.minigen.ui.GlobalKeyComboListener;
 import io.dimitris.minigen.ui.GlobalKeyComboManager;
 import io.dimitris.minigen.ui.OpenTemplatesFolderAction;
@@ -22,6 +21,7 @@ import io.dimitris.minigen.util.ClipboardManager;
 import io.dimitris.minigen.util.GrowlEngine;
 import io.dimitris.minigen.util.KeyboardManager;
 
+import java.awt.AWTException;
 import java.awt.Image;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
@@ -30,6 +30,7 @@ import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Console;
 import java.io.File;
 
 import javax.script.ScriptException;
@@ -43,10 +44,11 @@ public class Minigen {
 	protected SystemTray systemTray;
 	protected TrayIcon trayIcon;
 	protected Image icon;
-	protected Console console;
 	protected TemplateBrowser browser;
 	protected ClipboardManager clipboardManager;
 	protected KeyboardManager keyboardManager = new KeyboardManager();
+	protected ActionMenuItem registerKeyboardShortcutsMenuItem;
+	protected PopupMenu popupMenu;
 	
 	public void shutdown() {
 		try {
@@ -66,85 +68,76 @@ public class Minigen {
 		if (SystemTray.isSupported()) {
 			
 			systemTray = SystemTray.getSystemTray();
-
-			final PopupMenu popup = new PopupMenu();
-			popup.add(new ActionMenuItem(new ShowBrowserAction()));
-			popup.add(new ActionMenuItem(new RefreshAction()));
-			popup.add(new ActionMenuItem(new OpenTemplatesFolderAction()));
-			popup.addSeparator();
-			popup.add(new ActionMenuItem(new ShowHelpAction()));
-			popup.add(new ActionMenuItem(new ExitAction()));
+			GlobalKeyComboManager.INSTANCE.registerNativeHook();
+			boolean nativeHookRegistered = GlobalKeyComboManager.INSTANCE.isNativeHookRegistered();
 			
-			popup.addSeparator();
+			popupMenu = new PopupMenu();
+			
+			if (!nativeHookRegistered) {
+				registerKeyboardShortcutsMenuItem = new ActionMenuItem(new RegisterKeyboardShortcutsAction());
+				popupMenu.add(registerKeyboardShortcutsMenuItem);
+			}
+			
+			ActionMenuItem replaceTextMenuItem = new ActionMenuItem(new ReplaceTextAction());
+			popupMenu.add(replaceTextMenuItem);
+			popupMenu.add(new ActionMenuItem(new SelectAndReplaceTextAction()));
+			popupMenu.addSeparator();
+			popupMenu.add(new ActionMenuItem(new ShowBrowserAction()));
+			popupMenu.add(new ActionMenuItem(new RefreshAction()));
+			popupMenu.add(new ActionMenuItem(new OpenTemplatesFolderAction()));
+			popupMenu.addSeparator();
+			popupMenu.add(new ActionMenuItem(new ShowHelpAction()));
+			popupMenu.add(new ActionMenuItem(new ExitAction()));
+			
+			popupMenu.addSeparator();
 			
 			trayIcon = new TrayIcon( new ImageIcon(new File("resources/process.png").getAbsolutePath()).getImage());
 			
-			trayIcon.setToolTip("Press Ctrl+\\ or Ctrl+.");	
-			trayIcon.setPopupMenu(popup);
+			trayIcon.setToolTip("Waiting for authorisation (Preferences->Security and Privacy->Privacy->Accessibility)...");
+			trayIcon.setPopupMenu(popupMenu);
 			trayIcon.setImageAutoSize(true);
 			
-			console = Console.INSTANCE;
 			browser = new TemplateBrowser();
 			
-			try { Generator.getInstance().generate("hello:Mitsos"); }
+			try { Generator.getInstance().generate("lorem:10"); }
 			catch (Exception ex) {}
 			
 			try {
 				systemTray.add(trayIcon);
-				
-				GlobalKeyComboManager.INSTANCE.addGlobalHotKeyListener(new GlobalKeyComboListener() {
-					public void keyComboPressed() {
-						run(true);
-					}
-					
-					@Override
-					public int getKey() {
-						return NativeKeyEvent.VC_BACK_SLASH;
-					}
-					
-					@Override
-					public int getModifier() {
-						return NativeKeyEvent.VC_CONTROL_L;
-					}
-
-					@Override
-					public void keyComboStateChanged(int state) {
-						getTrayIcon().setImage(new ImageIcon(new File("resources/process" + state + ".png").getAbsolutePath()).getImage());
-					}
-					
-				});
-				
-				GlobalKeyComboManager.INSTANCE.addGlobalHotKeyListener(new GlobalKeyComboListener() {
-					
-					@Override
-					public void keyComboStateChanged(int state) {
-						getTrayIcon().setImage(new ImageIcon(new File("resources/process" + state + ".png").getAbsolutePath()).getImage());
-					}
-					
-					@Override
-					public void keyComboPressed() {
-						run(false);	
-					}
-					
-					@Override
-					public int getModifier() {
-						return NativeKeyEvent.VC_CONTROL_L;
-					}
-					
-					@Override
-					public int getKey() {
-						return NativeKeyEvent.VC_PERIOD;
-					}
-				});
-				
-				
-			} catch (Exception e) {
+				if (nativeHookRegistered) {
+					new RegisterKeyboardShortcutsAction().actionPerformed(null);
+				}
+			} catch (AWTException e) {
 				shutdown();
 			}
 			
 		}
 	}
 	
+	class ReplaceTextAction extends AbstractAction {
+		
+		public ReplaceTextAction() {
+			super("Replace Selected Text (Ctrl + .)");
+		}
+
+		public void actionPerformed(ActionEvent actionevent) {
+			run(false);
+		}
+		
+	}
+	
+	class SelectAndReplaceTextAction extends AbstractAction {
+		
+		public SelectAndReplaceTextAction() {
+			super("Select Line and Replace Text (Ctrl + \\)");
+		}
+
+		public void actionPerformed(ActionEvent actionevent) {
+			run(true);
+		}
+		
+	}
+
 	class ShowBrowserAction extends AbstractAction {
 		
 		public ShowBrowserAction() {
@@ -158,6 +151,74 @@ public class Minigen {
 				AppleScriptEngine.getInstance().eval("tell me to activate");
 			} catch (ScriptException e) {
 				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	class RegisterKeyboardShortcutsAction extends AbstractAction {
+		
+		public RegisterKeyboardShortcutsAction() {
+			super("Register Keyboard Shortcuts", new ImageIcon("resources/refresh.gif"));
+			putValue(AbstractAction.SHORT_DESCRIPTION, "Registers the keyboard shortcuts");
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			GlobalKeyComboManager.INSTANCE.registerNativeHook();
+			
+			if (GlobalKeyComboManager.INSTANCE.isNativeHookRegistered()) {
+				
+				GlobalKeyComboManager.INSTANCE.addGlobalHotKeyListener(new GlobalKeyComboListener() {
+					public void keyComboPressed() {
+						Minigen.this.run(true);
+					}
+					
+					@Override
+					public int getKey() {
+						return NativeKeyEvent.VC_BACK_SLASH;
+					}
+					
+					@Override
+					public int getModifier() {
+						return NativeKeyEvent.VC_CONTROL_L;
+					}
+	
+					@Override
+					public void keyComboStateChanged(int state) {
+						getTrayIcon().setImage(new ImageIcon(new File("resources/process" + state + ".png").getAbsolutePath()).getImage());
+					}
+					
+				});
+				
+				GlobalKeyComboManager.INSTANCE.addGlobalHotKeyListener(new GlobalKeyComboListener() {
+					
+					@Override
+					public void keyComboStateChanged(int state) {
+						getTrayIcon().setImage(new ImageIcon(new File("resources/process" + state + ".png").getAbsolutePath()).getImage());
+					}
+					
+					@Override
+					public void keyComboPressed() {
+						Minigen.this.run(false);	
+					}
+					
+					@Override
+					public int getModifier() {
+						return NativeKeyEvent.VC_CONTROL_L;
+					}
+					
+					@Override
+					public int getKey() {
+						return NativeKeyEvent.VC_PERIOD;
+					}
+				});
+				
+				if (registerKeyboardShortcutsMenuItem != null) {
+					popupMenu.remove(registerKeyboardShortcutsMenuItem);
+				}
+				trayIcon.setToolTip("Press Ctrl+\\ or Ctrl+");
 			}
 		}
 		
@@ -193,6 +254,7 @@ public class Minigen {
 		
 		public ActionMenuItem(final AbstractAction action) {
 			super("" + action.getValue(AbstractAction.NAME));
+			
 			this.addActionListener(new ActionListener() {
 				
 				@Override
@@ -204,82 +266,8 @@ public class Minigen {
 		
 	}
 	
-	/*
-	class ShowConsoleAction extends AbstractAction {
-		
-		public ShowConsoleAction() {
-			super("Show Console", new ImageIcon("resources/console.gif"));
-			putValue(AbstractAction.SHORT_DESCRIPTION, "Show console");
-		}
-
-		public void actionPerformed(ActionEvent actionevent) {
-			console.setVisible(true);
-			try {
-				AppleScriptEngine.getInstance().eval("tell me to activate");
-			} catch (ScriptException e) {}
-		}
-		
-	}*/
-	/*
-	protected boolean isTextSelected() {
-		try {
-			Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
-			Object data = null;
-			try {
-				data = c.getData(DataFlavor.stringFlavor);
-			}
-			catch (Exception ex) {
-				data = "";
-			}
-			String selectedText = getSelectedText();
-			
-			if (data.toString().compareTo(selectedText) != 0) {
-				return true;
-			}
-			else {
-				return false;
-			}
-		}
-		catch (Exception ex) {
-			return false;
-		}
-	}
-	
-	protected String getSelectedText() {
-		try {
-			String oldData = null;
-			Object data = null;
-			Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
-			try {
-				data = c.getData(DataFlavor.stringFlavor);
-			}
-			catch (Exception ex) {
-				data = "";
-			}
-			
-			oldData = data.toString();
-			
-			Robot robot = new Robot();
-			robot.keyPress(KeyEvent.VK_CONTROL);
-			robot.keyPress(KeyEvent.VK_C);
-			delay(robot, 4);
-			robot.keyRelease(KeyEvent.VK_CONTROL);
-			robot.keyRelease(KeyEvent.VK_C);
-			data = c.getData(DataFlavor.stringFlavor);
-
-			c.setContents(new StringSelection(oldData), null);
-			return data.toString();
-		}
-		catch (Exception ex) {
-			return "";
-		}
-	}*/
-
-	
-	
 	public void run(boolean selectLine) {
 		
-		console.clear();
 		String oldData = null;
 		
 		try {

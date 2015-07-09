@@ -1,3 +1,0 @@
-A basic hello world example with 2 parameters
-
-***hello2:John,Dimitris***

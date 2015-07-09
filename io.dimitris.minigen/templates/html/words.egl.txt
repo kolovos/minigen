@@ -1,4 +1,4 @@
-Creates Lorem sequences of words
+Creates placeholder sequences of words.
 
 ***words:10***
-***words:8***
+***words:7***

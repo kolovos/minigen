@@ -1,7 +1,7 @@
 [%
 var title;
 var label;
-if (fields.at(1).isUndefined()) {title := fields.at(0); label:= fields.at(0);}
+if (fields.size() < 2) {title := fields.at(0); label:= fields.at(0);}
 else { title := fields.at(0); label := fields.at(1);}
 %]
 \section{[%=title%]}

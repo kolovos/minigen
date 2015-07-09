@@ -1,4 +1,4 @@
-Creates an itemize list
+Creates an itemize list.
 
 ***
 itemize:

@@ -12,12 +12,8 @@
 package io.dimitris.minigen.delegates;
 
 import io.dimitris.minigen.model.Dataset;
-import io.dimitris.minigen.ui.Console;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
 
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
@@ -52,6 +48,7 @@ public class EglGeneratorDelegate implements IGeneratorDelegate {
 		module.getContext().getFrameStack().put(Variable.createReadOnlyVariable("fields", dataset.getAllFields()));
 		module.getContext().getFrameStack().put(Variable.createReadOnlyVariable("text", text));
 		
+		/*
 		module.getContext().setOutputStream(new PrintStream(new OutputStream(){
 
 			@Override
@@ -59,7 +56,7 @@ public class EglGeneratorDelegate implements IGeneratorDelegate {
 				Console.INSTANCE.write(i);
 			}
 			
-		}));
+		}));*/
 		
 		try {
 			return (String) module.execute();

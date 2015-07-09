@@ -1,4 +1,4 @@
-Generates a protected field, and getter only (no setter)
+Generates a protected field, and getter only (no setter).
 
 ***propr:name,String***
 ***propr:children,ArrayList,Person***

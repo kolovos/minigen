@@ -1,4 +1,4 @@
-Creates HTML links out of a list of URLs
+Creates HTML links out of a list of URLs.
 
 ***
 linkify:

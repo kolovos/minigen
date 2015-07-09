@@ -1,4 +1,4 @@
-Creates an enumerate list
+Creates an enumerate list.
 
 ***
 enumerate:

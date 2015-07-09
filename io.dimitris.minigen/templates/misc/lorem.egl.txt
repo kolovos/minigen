@@ -1,4 +1,4 @@
-Creates Lorem ipsum paragraphs
+Creates Lorem ipsum paragraphs.
 
 ***lorem:2***
 ***lorem:4***

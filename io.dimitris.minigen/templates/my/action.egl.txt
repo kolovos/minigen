@@ -1,3 +1,0 @@
-Creates a class that extends AbstractAction
-
-***action:RefreshAction, Refresh workspace, Refresh.png, Refreshes the workspace***

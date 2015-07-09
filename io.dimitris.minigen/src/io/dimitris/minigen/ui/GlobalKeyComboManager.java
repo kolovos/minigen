@@ -13,13 +13,22 @@ public class GlobalKeyComboManager {
 	public static GlobalKeyComboManager INSTANCE = new GlobalKeyComboManager();
 	
 	public GlobalKeyComboManager() {
+		
+	}
+	
+	public void registerNativeHook() {
 		try {
 			GlobalScreen.registerNativeHook();
+			LogManager.getLogManager().getLogger("org.jnativehook").setLevel(Level.OFF);
 		} catch (NativeHookException e) {}
-		LogManager.getLogManager().getLogger("org.jnativehook").setLevel(Level.OFF);
+	}
+	
+	public boolean isNativeHookRegistered() {
+		return GlobalScreen.isNativeHookRegistered();
 	}
 	
 	public void addGlobalHotKeyListener(final GlobalKeyComboListener listener) {
+		System.out.println("Adding " + listener);
 		GlobalScreen.addNativeKeyListener(new NativeKeyListener() {
 			
         	int state = 0;

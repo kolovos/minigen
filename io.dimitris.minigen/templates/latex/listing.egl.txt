@@ -1,4 +1,4 @@
-Creates a listing
+Creates a listing.
 
 ***listing:JFrame, Source code of JFrame, JAVA***
 

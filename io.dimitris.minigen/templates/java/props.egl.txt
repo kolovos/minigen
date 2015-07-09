@@ -1,4 +1,4 @@
-Generates fields, setters and getters for a list of properties
+Generates fields, setters and getters for a list of properties.
 
 ***props:
 name,String

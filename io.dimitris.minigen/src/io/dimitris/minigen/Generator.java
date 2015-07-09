@@ -97,7 +97,7 @@ public class Generator {
 		return templates.keySet();
 	}
 	
-	protected boolean popup = true;
+	protected boolean popup = false;
 	public String generate(Input input) {
 		String templatePath = templates.get(input.getTemplate());
 		

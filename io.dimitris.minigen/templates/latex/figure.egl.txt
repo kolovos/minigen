@@ -1,4 +1,3 @@
-Generates a LaTeX figure
+Generates a LaTeX figure.
 
 ***figure:Overview,An overview of the system***
-***figure:Screenshot*** 

@@ -1,4 +1,4 @@
-Generates a protected field, a setter and a getter in a Java class
+Generates a protected field, a setter and a getter in a Java class.
 
 ***prop:name,String***
 ***prop:children,ArrayList,Person***
