@@ -4,5 +4,5 @@ Minigen is an inline text generator which works with any text editor in Mac OS X
 
 The following video shows Minigen in action.
 
-[!(http://img.youtube.com/vi/T-D1KVIuvjA/0.jpg)](http://www.youtube.com/watch?v=T-D1KVIuvjA)
+[(http://img.youtube.com/vi/T-D1KVIuvjA/0.jpg)](http://www.youtube.com/watch?v=T-D1KVIuvjA)
 
