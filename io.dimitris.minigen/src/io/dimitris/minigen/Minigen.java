@@ -91,7 +91,7 @@ public class Minigen {
 			
 			popupMenu.addSeparator();
 			
-			trayIcon = new TrayIcon( new ImageIcon(new File("resources/process.png").getAbsolutePath()).getImage());
+			trayIcon = new TrayIcon( new ImageIcon(new File("resources/menubar.png").getAbsolutePath()).getImage());
 			
 			trayIcon.setToolTip("Waiting for authorisation (Preferences->Security and Privacy->Privacy->Accessibility)...");
 			trayIcon.setPopupMenu(popupMenu);
@@ -187,7 +187,7 @@ public class Minigen {
 	
 					@Override
 					public void keyComboStateChanged(int state) {
-						getTrayIcon().setImage(new ImageIcon(new File("resources/process" + state + ".png").getAbsolutePath()).getImage());
+						getTrayIcon().setImage(new ImageIcon(new File("resources/menubar" + state + ".png").getAbsolutePath()).getImage());
 					}
 					
 				});
@@ -196,7 +196,7 @@ public class Minigen {
 					
 					@Override
 					public void keyComboStateChanged(int state) {
-						getTrayIcon().setImage(new ImageIcon(new File("resources/process" + state + ".png").getAbsolutePath()).getImage());
+						//getTrayIcon().setImage(new ImageIcon(new File("resources/menubar" + state + ".png").getAbsolutePath()).getImage());
 					}
 					
 					@Override

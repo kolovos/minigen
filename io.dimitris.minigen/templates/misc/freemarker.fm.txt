@@ -1,0 +1,3 @@
+Example Freemarker (<a href="http://freemarker.org">freemarker.org</a>) template.
+
+***freemarker:John***

@@ -27,13 +27,12 @@
 			<librarypath file="lib/libquaqua64.jnilib"/>
 			<librarypath file="lib/libquaqua64.dylib"/>
 			<option value="-Dapple.laf.useScreenMenuBar=true"/>
-			<option value="-Duser.dir=$APP_ROOT/Contents/Java/"/>
-			<option value="-Duser.dir=$APP_ROOT/Contents/Java/"/>
+			<option value="-Duser.dir=$APP_ROOT/Contents/Home/"/>
 			<option value="-Dapple.awt.UIElement=true"/>
 		</bundleapp>
 
-		<copydir src="resources" dest="dist/Minigen.app/Contents/Java/resources"/>
-		<copydir src="templates" dest="dist/Minigen.app/Contents/Java/templates"/>
+		<copydir src="resources" dest="dist/Minigen.app/Contents/Home/resources"/>
+		<copydir src="templates" dest="dist/Minigen.app/Contents/Home/templates"/>
 		
 		<exec executable="hdiutil">
 			<arg line="create -srcfolder dist/Minigen.app dist/Minigen.dmg"/>
