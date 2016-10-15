@@ -19,7 +19,7 @@ import java.io.FileReader;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
-public class JmfGeneratorDelegate implements IGeneratorDelegate {
+public class JmfGeneratorDelegate implements ITextGeneratorDelegate {
 
 	public String generate(File template, String text, Dataset dataset)
 			throws Exception {

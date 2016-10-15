@@ -16,7 +16,6 @@ import io.dimitris.minigen.util.AppleScriptEngine;
 import java.awt.event.ActionEvent;
 import java.io.File;
 
-import javax.script.ScriptException;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 
@@ -30,7 +29,7 @@ public 	class ShowHelpAction extends AbstractAction {
 	public void actionPerformed(ActionEvent actionevent) {
 		try {
 			AppleScriptEngine.getInstance().eval("open location \"https://github.com/kolovos/minigen\"");
-		} catch (ScriptException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

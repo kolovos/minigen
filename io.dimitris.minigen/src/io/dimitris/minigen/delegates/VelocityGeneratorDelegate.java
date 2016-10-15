@@ -20,7 +20,7 @@ import java.io.StringWriter;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 
-public class VelocityGeneratorDelegate implements IGeneratorDelegate {
+public class VelocityGeneratorDelegate implements ITextGeneratorDelegate {
 
 	public String generate(File template, String text, Dataset dataset)
 			throws Exception {

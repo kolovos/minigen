@@ -12,20 +12,21 @@
 package io.dimitris.minigen;
 
 import io.dimitris.minigen.delegates.EglGeneratorDelegate;
+import io.dimitris.minigen.delegates.EgxGeneratorDelegate;
 import io.dimitris.minigen.delegates.FreemarkerGeneratorDelegate;
+import io.dimitris.minigen.delegates.IFileGeneratorDelegate;
 import io.dimitris.minigen.delegates.IGeneratorDelegate;
+import io.dimitris.minigen.delegates.ITextGeneratorDelegate;
 import io.dimitris.minigen.delegates.JmfGeneratorDelegate;
 import io.dimitris.minigen.delegates.VelocityGeneratorDelegate;
 import io.dimitris.minigen.model.Input;
 import io.dimitris.minigen.ui.SelectTemplateDialog;
-import io.dimitris.minigen.util.GrowlEngine;
+import io.dimitris.minigen.util.NotificationEngine;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-
-import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 
 public class Generator {
 	
@@ -50,11 +51,20 @@ public class Generator {
 		delegates.add(new JmfGeneratorDelegate());
 		delegates.add(new VelocityGeneratorDelegate());
 		delegates.add(new EglGeneratorDelegate());
+		delegates.add(new EgxGeneratorDelegate());
 		delegates.add(new FreemarkerGeneratorDelegate());
 		loadTemplates();
 	}
 	
-	protected IGeneratorDelegate getDelegate(File file) {
+	public IGeneratorDelegate getDelegate(String template) {
+		String templatePath = templates.get(template);
+		if (templatePath != null) {
+			return getDelegate(new File(templatePath));
+		}
+		return null;
+	}
+	
+	public IGeneratorDelegate getDelegate(File file) {
 		for (IGeneratorDelegate delegate : delegates) {
 			if (delegate.supports(file)) {
 				return delegate;
@@ -78,7 +88,7 @@ public class Generator {
 	}
 	
 	public void addTemplate(File file) {
-		if (file.isDirectory()) {
+		if (file.isDirectory() && !file.isHidden()) {
 			for (File f : file.listFiles()) {
 				addTemplate(f);
 			}
@@ -118,7 +128,7 @@ public class Generator {
 				}
 			}
 			else {
-				GrowlEngine.getInstance().show("Template " + input.getTemplate()  + " not found", "Please add a template named " + input.getTemplate() + " under your templates folder and then refresh.");
+				NotificationEngine.getInstance().show("Template " + input.getTemplate()  + " not found", "Please add a template named " + input.getTemplate() + " under your templates folder and then refresh.");
 				return null;
 			}
 		}
@@ -130,11 +140,11 @@ public class Generator {
 		try {
 			IGeneratorDelegate delegate = getDelegate(template);
 			
-			if (delegate != null) {
-				generated = delegate.generate(template, input.getText(), input.getDataset());
+			if (delegate instanceof ITextGeneratorDelegate) {
+				ITextGeneratorDelegate textGeneratorDelegate = (ITextGeneratorDelegate) delegate;
+				generated = textGeneratorDelegate.generate(template, input.getText(), input.getDataset());
 				
 				StringBuffer buffer = new StringBuffer();
-				//String generatedWithLeadingWhitespace = "";
 				String[] lines = generated.split(System.lineSeparator());
 				int lineIndex = 0;
 				for (String line : lines) {
@@ -142,18 +152,19 @@ public class Generator {
 						buffer.append(input.getLeadingWhitespace());
 						buffer.append(line);
 						buffer.append(System.lineSeparator());
-						//generatedWithLeadingWhitespace += 
-						//	input.getLeadingWhitespace() + line + nl;
 					}
 				}
 				
-				generated = buffer.toString(); //generatedWithLeadingWhitespace;
+				generated = buffer.toString();
 				
+			}
+			else if (delegate instanceof IFileGeneratorDelegate) {
+				((IFileGeneratorDelegate) delegate).generate(template, null);
 			}
 		}
 		
 		catch (Exception ex) {
-			GrowlEngine.getInstance().show("Oh, snap!", ex.getMessage().replace("\t", " "));
+			NotificationEngine.getInstance().show("Oh, snap!", ex.getMessage().replace("\t", " "));
 		}
 		return generated;		
 	}

@@ -121,7 +121,7 @@ public class SelectTemplateDialog extends JDialog {
 		this.setVisible(false);
 		try {
 			AppleScriptEngine.getInstance().eval("tell me to close");
-		} catch (ScriptException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

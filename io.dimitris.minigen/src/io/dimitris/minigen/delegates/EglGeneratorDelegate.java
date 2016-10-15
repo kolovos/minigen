@@ -22,7 +22,7 @@ import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 
-public class EglGeneratorDelegate implements IGeneratorDelegate {
+public class EglGeneratorDelegate implements ITextGeneratorDelegate {
 
 	public String generate(File template, String text, Dataset dataset)
 			throws Exception {

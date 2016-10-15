@@ -20,7 +20,7 @@ import java.util.HashMap;
 
 import freemarker.template.Template;
 
-public class FreemarkerGeneratorDelegate implements IGeneratorDelegate {
+public class FreemarkerGeneratorDelegate implements ITextGeneratorDelegate {
 
 	public String generate(File template, String text, Dataset dataset)
 			throws Exception {

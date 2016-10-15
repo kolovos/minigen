@@ -24,7 +24,6 @@ import java.awt.print.PrinterException;
 import java.io.File;
 import java.util.ArrayList;
 
-import javax.script.ScriptException;
 import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
 import javax.swing.Action;
@@ -32,14 +31,12 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -51,7 +48,6 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 
-import com.explodingpixels.macwidgets.LabeledComponentGroup;
 import com.explodingpixels.macwidgets.MacButtonFactory;
 import com.explodingpixels.macwidgets.MacUtils;
 import com.explodingpixels.macwidgets.UnifiedToolBar;
@@ -245,7 +241,7 @@ public class TemplateBrowser extends JFrame {
 					"	reveal thePath",
 					"	activate",
 					"end tell");
-			} catch (ScriptException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			

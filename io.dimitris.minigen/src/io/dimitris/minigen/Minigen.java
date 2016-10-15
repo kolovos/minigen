@@ -11,6 +11,9 @@
 
 package io.dimitris.minigen;
 
+import io.dimitris.minigen.delegates.IFileGeneratorDelegate;
+import io.dimitris.minigen.delegates.IGeneratorDelegate;
+import io.dimitris.minigen.delegates.ITextGeneratorDelegate;
 import io.dimitris.minigen.ui.GlobalKeyComboListener;
 import io.dimitris.minigen.ui.GlobalKeyComboManager;
 import io.dimitris.minigen.ui.OpenTemplatesFolderAction;
@@ -18,8 +21,9 @@ import io.dimitris.minigen.ui.ShowHelpAction;
 import io.dimitris.minigen.ui.TemplateBrowser;
 import io.dimitris.minigen.util.AppleScriptEngine;
 import io.dimitris.minigen.util.ClipboardManager;
-import io.dimitris.minigen.util.GrowlEngine;
+import io.dimitris.minigen.util.NotificationEngine;
 import io.dimitris.minigen.util.KeyboardManager;
+import io.dimitris.minigen.util.StringComparator;
 
 import java.awt.AWTException;
 import java.awt.Image;
@@ -30,13 +34,15 @@ import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.Console;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-import javax.script.ScriptException;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 
+import org.eclipse.epsilon.egl.merge.output.Output;
 import org.jnativehook.keyboard.NativeKeyEvent;
 
 public class Minigen {
@@ -49,6 +55,7 @@ public class Minigen {
 	protected KeyboardManager keyboardManager = new KeyboardManager();
 	protected ActionMenuItem registerKeyboardShortcutsMenuItem;
 	protected PopupMenu popupMenu;
+	protected PopupMenu templatesMenu;
 	
 	public void shutdown() {
 		try {
@@ -72,6 +79,7 @@ public class Minigen {
 			boolean nativeHookRegistered = GlobalKeyComboManager.INSTANCE.isNativeHookRegistered();
 			
 			popupMenu = new PopupMenu();
+			templatesMenu = new PopupMenu("Templates");
 			
 			if (!nativeHookRegistered) {
 				registerKeyboardShortcutsMenuItem = new ActionMenuItem(new RegisterKeyboardShortcutsAction());
@@ -82,6 +90,8 @@ public class Minigen {
 			popupMenu.add(replaceTextMenuItem);
 			popupMenu.add(new ActionMenuItem(new SelectAndReplaceTextAction()));
 			popupMenu.addSeparator();
+			refreshTemplatesMenu();
+			popupMenu.add(templatesMenu);
 			popupMenu.add(new ActionMenuItem(new ShowBrowserAction()));
 			popupMenu.add(new ActionMenuItem(new RefreshAction()));
 			popupMenu.add(new ActionMenuItem(new OpenTemplatesFolderAction()));
@@ -111,6 +121,33 @@ public class Minigen {
 				shutdown();
 			}
 			
+		}
+	}
+	
+	protected void refreshTemplatesMenu() {
+		templatesMenu.removeAll();
+		
+		List<String> subitems = new ArrayList<String>(Generator.getInstance().getTemplates());
+		
+		Collections.sort(subitems, new StringComparator());
+		
+		for (String template : subitems) {
+			templatesMenu.add(new ActionMenuItem(new RunTemplateAction(template)));
+		}
+	}
+	
+	class RunTemplateAction extends AbstractAction {
+		
+		protected String template = null;
+		
+		public RunTemplateAction(String template) {
+			super(template);
+			this.template = template;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			run(template);
 		}
 	}
 	
@@ -149,7 +186,7 @@ public class Minigen {
 			browser.setVisible(true);
 			try {
 				AppleScriptEngine.getInstance().eval("tell me to activate");
-			} catch (ScriptException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -234,6 +271,7 @@ public class Minigen {
 		public void actionPerformed(ActionEvent actionevent) {
 			Generator.getInstance().refresh();
 			browser.refresh();
+			refreshTemplatesMenu();
 		}
 		
 	}
@@ -266,7 +304,23 @@ public class Minigen {
 		
 	}
 	
+	public void run(String template) {
+		
+		IGeneratorDelegate delegate = Generator.getInstance().getDelegate(template);
+		if (delegate instanceof ITextGeneratorDelegate) {
+			run(template, false);
+		}
+		else if (delegate instanceof IFileGeneratorDelegate){
+			IFileGeneratorDelegate fileGeneratorDelegate = (IFileGeneratorDelegate) delegate;
+		}
+		
+	}
+	
 	public void run(boolean selectLine) {
+		run(null, selectLine);
+	}
+	
+	public void run(String template, boolean selectLine) {
 		
 		String oldData = null;
 		
@@ -278,12 +332,15 @@ public class Minigen {
 			
 			String data = clipboardManager.getClipboardContents();
 			
-			String generated = Generator.getInstance().generate(data.toString());
-			
+			String input = data.toString();
+			System.out.println("Input " + input);
+			if (template != null) { input = template + ":" + input; }
+			String generated = Generator.getInstance().generate(input);
+			System.out.println("Output " + generated);
 			if (generated == null) return;
 			
 			if (generated.trim().isEmpty()) {
-				GrowlEngine.getInstance().show("Zilch generated", "The template executed without errors, but did not generate any text.");
+				NotificationEngine.getInstance().show("Zilch generated", "The template executed without errors, but did not generate any text.");
 			}
 			else {
 				clipboardManager.setClipboardContents(generated);

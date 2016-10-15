@@ -111,7 +111,7 @@ public class ClipboardManager {
 		
 		try {
 			AppleScriptEngine.getInstance().eval(script);
-		} catch (ScriptException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	

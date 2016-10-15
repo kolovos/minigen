@@ -34,7 +34,7 @@ public class OpenTemplatesFolderAction extends AbstractAction {
 				"	reveal thePath",
 				"	activate",
 				"end tell");
-		} catch (ScriptException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
