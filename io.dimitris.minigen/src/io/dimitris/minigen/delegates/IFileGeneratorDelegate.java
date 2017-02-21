@@ -4,6 +4,6 @@ import java.io.File;
 
 public interface IFileGeneratorDelegate extends IGeneratorDelegate {
 	
-	public void generate(File template, File root);
+	public void generate(File template) throws Exception;
 	
 }

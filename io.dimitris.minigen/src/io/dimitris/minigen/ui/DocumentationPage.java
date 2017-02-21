@@ -46,7 +46,13 @@ public class DocumentationPage {
 		int start = 0;
 		
 		//System.err.println(contents);
-		String summary = StringUtil.escapeHTML(contents.substring(0, contents.indexOf("***")).trim());
+		String summary = null;
+		if (contents.indexOf("***") > -1) {
+			summary = StringUtil.escapeHTML(contents.substring(0, contents.indexOf("***")).trim());
+		}
+		else {
+			summary = StringUtil.escapeHTML(contents);
+		}
 		
 		while (start != -1 && end != -1) {
 			start = contents.indexOf("***", end);

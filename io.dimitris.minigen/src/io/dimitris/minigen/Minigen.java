@@ -311,7 +311,7 @@ public class Minigen {
 			run(template, false);
 		}
 		else if (delegate instanceof IFileGeneratorDelegate){
-			IFileGeneratorDelegate fileGeneratorDelegate = (IFileGeneratorDelegate) delegate;
+			Generator.getInstance().generate(template);
 		}
 		
 	}

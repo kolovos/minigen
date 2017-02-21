@@ -156,10 +156,10 @@ public class Generator {
 				}
 				
 				generated = buffer.toString();
-				
 			}
 			else if (delegate instanceof IFileGeneratorDelegate) {
-				((IFileGeneratorDelegate) delegate).generate(template, null);
+				IFileGeneratorDelegate fileGeneratorDelegate = (IFileGeneratorDelegate) delegate;
+				fileGeneratorDelegate.generate(template);
 			}
 		}
 		

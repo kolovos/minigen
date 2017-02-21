@@ -1,7 +1,7 @@
 <body style="background-color:white;font-family:'Lucida Grande';padding-left:8px;padding-right:8px">
 <h3>Summary</h3>
 [%=summary%]
-<h3>[%if(examples.size()>1){%]Examples[%}else{%]Example[%}%]</h3>
+[%if(examples.size()>0){%]<h3>Examples</h3>[%}%]
 [%for (example in examples){%]
 <div style="background-color:rgb(231,235,240); padding:4px; margin-bottom:8px; font-family:'Lucida Grande'">
 <pre>
