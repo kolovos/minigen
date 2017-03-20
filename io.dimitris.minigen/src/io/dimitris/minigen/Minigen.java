@@ -36,8 +36,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
@@ -127,12 +129,14 @@ public class Minigen {
 	protected void refreshTemplatesMenu() {
 		templatesMenu.removeAll();
 		
-		List<String> subitems = new ArrayList<String>(Generator.getInstance().getTemplates());
+		Map<String, ? extends Collection<String>> templateGroups = Generator.getInstance().getTemplateGroups();
 		
-		Collections.sort(subitems, new StringComparator());
-		
-		for (String template : subitems) {
-			templatesMenu.add(new ActionMenuItem(new RunTemplateAction(template)));
+		for (String templateGroup : templateGroups.keySet()) {
+			PopupMenu templateGroupPopupMenu = new PopupMenu(templateGroup);
+			templatesMenu.add(templateGroupPopupMenu);
+			for (String template : templateGroups.get(templateGroup)) {
+				templateGroupPopupMenu.add(new ActionMenuItem(new RunTemplateAction(template)));
+			}
 		}
 	}
 	

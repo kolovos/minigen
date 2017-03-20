@@ -11,6 +11,13 @@
 
 package io.dimitris.minigen;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import io.dimitris.minigen.delegates.EglGeneratorDelegate;
 import io.dimitris.minigen.delegates.EgxGeneratorDelegate;
 import io.dimitris.minigen.delegates.FreemarkerGeneratorDelegate;
@@ -23,14 +30,9 @@ import io.dimitris.minigen.model.Input;
 import io.dimitris.minigen.ui.SelectTemplateDialog;
 import io.dimitris.minigen.util.NotificationEngine;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-
 public class Generator {
 	
-	public HashMap<String, String> templates = new HashMap<String, String>();
+	public HashMap<String, File> templates = new LinkedHashMap<String, File>();
 	protected ArrayList<IGeneratorDelegate> delegates = new ArrayList<IGeneratorDelegate>();
 	protected SelectTemplateDialog selectTemplateDialog = new SelectTemplateDialog();
 	protected File root = new File("templates").getAbsoluteFile();
@@ -58,9 +60,9 @@ public class Generator {
 	}
 	
 	public IGeneratorDelegate getDelegate(String template) {
-		String templatePath = templates.get(template);
-		if (templatePath != null) {
-			return getDelegate(new File(templatePath));
+		File templateFile = templates.get(template);
+		if (templateFile != null) {
+			return getDelegate(templateFile);
 		}
 		return null;
 	}
@@ -99,10 +101,23 @@ public class Generator {
 			if (supports(file)) {
 				String[] parts = file.getName().split("\\.");
 				if (parts.length == 2) {
-					templates.put(parts[0], file.getAbsolutePath());
+					templates.put(parts[0], file);
 				}
 			}
 		}
+	}
+	
+	public Map<String, ? extends Collection<String>> getTemplateGroups() {
+		LinkedHashMap<String, ArrayList<String>> templateGroups = new LinkedHashMap<String, ArrayList<String>>();
+		for (String template : templates.keySet()) {
+			File templateFile = templates.get(template);
+			File parentFile = templateFile.getParentFile();
+			if (!templateGroups.containsKey(parentFile.getName())) {
+				templateGroups.put(parentFile.getName(), new ArrayList<String>());
+			}
+			templateGroups.get(parentFile.getName()).add(template);
+		}
+		return templateGroups;
 	}
 	
 	public Collection<String> getTemplates() {
@@ -111,9 +126,9 @@ public class Generator {
 	
 	protected boolean popup = false;
 	public String generate(Input input) {
-		String templatePath = templates.get(input.getTemplate());
+		File template = templates.get(input.getTemplate());
 		
-		if (templatePath == null) {
+		if (template == null) {
 			
 			if (popup) {
 				selectTemplateDialog.popup();
@@ -123,7 +138,7 @@ public class Generator {
 				catch (Exception ex){}
 				if (selectTemplateDialog.getSelectedTemplate() != null) {
 					input = new Input(input.getLeadingWhitespace() + selectTemplateDialog.getSelectedTemplate() + ":" + input.getText());
-					templatePath = templates.get(input.getTemplate());
+					template = templates.get(input.getTemplate());
 				}
 				else {
 					return null;
@@ -134,8 +149,6 @@ public class Generator {
 				return null;
 			}
 		}
-
-		File template = new File(templatePath);
 		
 		String generated = null;
 		
