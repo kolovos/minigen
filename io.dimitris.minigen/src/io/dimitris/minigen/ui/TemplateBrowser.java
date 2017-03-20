@@ -375,17 +375,23 @@ public class TemplateBrowser extends JFrame {
 	}
 	
 	class BrowserTreeModel implements TreeModel {
-
+		
+		protected File root = new File("templates").getAbsoluteFile();
+		
 		public void addTreeModelListener(TreeModelListener treemodellistener) {
 			
 		}
 		
 		public ArrayList<File> getChildren(File file) {
 			ArrayList<File> children = new ArrayList<File>();
-			for (File child : file.listFiles()) {
-				if (child.isDirectory()) {
-					if (!child.getName().startsWith(".")) {
-						children.add(child);
+			
+			
+			if (file == root) {
+				for (File child : file.listFiles()) {
+					if (child.isDirectory()) {
+						if (!child.getName().startsWith(".")) {
+							children.add(child);
+						}
 					}
 				}
 			}
@@ -413,7 +419,7 @@ public class TemplateBrowser extends JFrame {
 		}
 
 		public Object getRoot() {
-			return new File("templates").getAbsoluteFile();
+			return root;
 		}
 
 		public boolean isLeaf(Object obj) {

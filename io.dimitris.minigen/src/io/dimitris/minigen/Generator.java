@@ -33,6 +33,7 @@ public class Generator {
 	public HashMap<String, String> templates = new HashMap<String, String>();
 	protected ArrayList<IGeneratorDelegate> delegates = new ArrayList<IGeneratorDelegate>();
 	protected SelectTemplateDialog selectTemplateDialog = new SelectTemplateDialog();
+	protected File root = new File("templates").getAbsoluteFile();
 	
 	protected static Generator instance;
 	
@@ -83,14 +84,15 @@ public class Generator {
 	
 	public void loadTemplates() {
 		templates.clear();
-		File file = new File("templates").getAbsoluteFile();
-		addTemplate(file);
+		addTemplate(root);
 	}
 	
 	public void addTemplate(File file) {
 		if (file.isDirectory() && !file.isHidden()) {
-			for (File f : file.listFiles()) {
-				addTemplate(f);
+			if (file == root || file.getParentFile().equals(root)) {
+				for (File f : file.listFiles()) {
+					addTemplate(f);
+				}
 			}
 		}
 		else {
@@ -164,6 +166,7 @@ public class Generator {
 		}
 		
 		catch (Exception ex) {
+			ex.printStackTrace();
 			NotificationEngine.getInstance().show("Oh, snap!", ex.getMessage().replace("\t", " "));
 		}
 		return generated;		
