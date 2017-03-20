@@ -1,3 +1,4 @@
 /[%=dir.name%].synctex.gz
 /[%=dir.name%].pdf
 tmp
+**/.DS_Store
