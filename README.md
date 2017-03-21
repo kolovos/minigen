@@ -6,7 +6,7 @@ The following video shows Minigen in action.
 
 [![Minigen - Introduction](http://img.youtube.com/vi/0Nn3nuS6bC4/0.jpg)](https://www.youtube.com/watch?v=0Nn3nuS6bC4)
 
-##Tips
+## Tips
 
 Atom overrides the behaviour of `Shift+Cmd+Left` which Minigen uses to select the current line when you press `Ctrl+\`. To restore the default system behaviour, add the following lines to Atom's `keymap.json`.
 
