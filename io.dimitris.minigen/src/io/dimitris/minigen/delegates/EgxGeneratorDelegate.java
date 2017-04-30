@@ -30,7 +30,13 @@ public class EgxGeneratorDelegate implements IFileGeneratorDelegate {
 		templateFactory.setOutputRoot(rootDirectoryPath);
 		EgxModule module = new EgxModule(templateFactory);
 		module.parse(egx);
+		String selectedFile = null;
+		try {
+			selectedFile = (String) appleScriptEngine.eval("tell application \"Finder\" \n set currentFile to (item 1 of (get selection)) \n return name of currentFile \n end tell");
+		}
+		catch (Exception ex) {}
 		module.getContext().getFrameStack().put(Variable.createReadOnlyVariable("dir", new File(rootDirectoryPath)));
+		module.getContext().getFrameStack().put(Variable.createReadOnlyVariable("file", new File(selectedFile)));
 		module.execute();
 		
 	}
