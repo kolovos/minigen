@@ -1,0 +1,4 @@
+[%for(line in text.split("\\n").invert()){
+	out.println(line);
+}
+%]
