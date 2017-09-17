@@ -1,0 +1,36 @@
+\documentclass[compress,handout]{beamer}
+\usepackage{pgfpages}
+\setbeameroption{show notes on second screen}
+\usetheme{metropolis}
+\setbeamercovered{transparent}
+%\usecolortheme{crane}
+\usepackage{appendixnumberbeamer}
+\usepackage{listings}
+\usepackage{booktabs}
+\usepackage[scale=2]{ccicons}
+\setbeamerfont{note page}{size=\scriptsize}
+\usepackage{longtable}
+
+\usepackage{xspace}
+\newcommand{\themename}{\textbf{\textsc{metropolis}}\xspace}
+
+\newcommand{\fitem}[1]{\begin{itemize} \item #1}
+\newcommand{\oitem}[1]{\begin{itemize} \item #1 \end{itemize}}
+\newcommand{\litem}[1]{\item #1 \end{itemize}}
+\newcommand{\eitem}{\end{itemize}}
+
+\title{Title}
+%\subtitle{A modern beamer theme}
+\date{\today}
+\author{Dimitris Kolovos (@kolovos)}
+\institute{Department of Computer Science \\ University of York}
+ \titlegraphic{\hfill\includegraphics[height=1.5cm]{uoy.pdf}}
+
+\begin{document}
+
+\maketitle
+
+\begin{frame}[fragile]
+\end{frame}
+
+\end{document}

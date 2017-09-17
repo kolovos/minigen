@@ -1,0 +1,63 @@
+rule Tex {
+	template : "presentation/tex.egl"
+	parameters : Map {"dir" = dir}
+	target : dir.name + ".tex"
+	overwrite : false	
+}
+
+rule Gitignore {
+	template : "presentation/gitignore.egl"
+	parameters : Map {"dir" = dir}
+	target : ".gitignore"
+	overwrite : false
+}
+
+rule Texlipse {
+	template : "presentation/texlipse.egl"
+	parameters : Map {"dir" = dir}
+	target : ".texlipse"
+	overwrite : false	
+}
+
+rule Project {
+	template : "presentation/project.egl"
+	parameters : Map {"dir" = dir}
+	target : ".project"
+	overwrite : false	
+}
+
+rule ColorTheme {
+	template : "presentation/beamercolorthememetropolis.sty"
+	target : "beamercolorthememetropolis.sty"
+}
+
+rule ColorTheme {
+	template : "presentation/beamercolorthememetropolis.sty"
+	target : "beamercolorthememetropolis.sty"
+}
+
+rule FontTheme {
+	template : "presentation/beamerfontthememetropolis.sty"
+	target : "beamerfontthememetropolis.sty"
+}
+
+rule InnerTheme {
+	template : "presentation/beamerinnerthememetropolis.sty"
+	target : "beamerinnerthememetropolis.sty"
+}
+
+rule OuterTheme {
+	template : "presentation/beamerouterthememetropolis.sty"
+	target : "beamerouterthememetropolis.sty"
+}
+
+rule Theme {
+	template : "presentation/beamerthememetropolis.sty"
+	target : "beamerthememetropolis.sty"
+}
+
+@verbatim
+rule Logo {
+	template : "presentation/uoy.pdf"
+	target : "uoy.pdf"
+}
