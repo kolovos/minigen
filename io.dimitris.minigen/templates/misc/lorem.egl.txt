@@ -1,4 +1,0 @@
-Creates Lorem ipsum paragraphs.
-
-***lorem:2***
-***lorem:4***

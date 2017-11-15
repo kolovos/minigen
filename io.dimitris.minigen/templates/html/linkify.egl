@@ -1,3 +1,0 @@
-[%for(row in rows){%]
-<a href="[%=row.text%]">[%=row%]</a>[%if(hasMore){%]<br>[%}%] 
-[%}%]

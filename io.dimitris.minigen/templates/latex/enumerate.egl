@@ -1,5 +1,0 @@
-\begin{enumerate}
-	[%for (row in rows){%]
-	\item [%=row.text%]
-	[%}%]
-\end{enumerate}

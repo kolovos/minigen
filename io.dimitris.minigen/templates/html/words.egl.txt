@@ -1,4 +1,0 @@
-Creates placeholder sequences of words.
-
-***words:10***
-***words:7***

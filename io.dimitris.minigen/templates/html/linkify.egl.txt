@@ -1,8 +1,0 @@
-Creates HTML links out of a list of URLs.
-
-***
-linkify:
-a.html
-b.html
-c.html
-***

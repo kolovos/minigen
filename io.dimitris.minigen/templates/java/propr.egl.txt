@@ -1,5 +1,0 @@
-Generates a protected field, and getter only (no setter).
-
-***propr:name,String***
-***propr:children,ArrayList,Person***
-***propr:map,HashMap,String,Object***

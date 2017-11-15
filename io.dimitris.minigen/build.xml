@@ -33,7 +33,7 @@
 		</bundleapp>
 
 		<copydir src="resources" dest="dist/Minigen.app/Contents/Home/resources"/>
-		<copydir src="templates" dest="dist/Minigen.app/Contents/Home/templates"/>
+		<copydir src="config" dest="dist/Minigen.app/Contents/Home/config"/>
 		
 		<exec executable="hdiutil">
 			<arg line="create -srcfolder dist/Minigen.app dist/Minigen.dmg"/>

@@ -1,8 +1,0 @@
-Creates an itemize list.
-
-***
-itemize:
-1
-2
-3
-***

@@ -1,5 +1,0 @@
-[%for (field in fields){%]
-<target name="[%=field%]"[%if (loopCount > 1){%] depends="[%=fields.at(loopCount - 2)%]"[%}%]>
-		
-</target>
-[%}%]

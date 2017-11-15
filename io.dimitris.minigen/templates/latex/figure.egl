@@ -1,1 +1,0 @@
-\begin{figure}	\centering		\includegraphics{images/[%=fields.at(0)%].png}	\caption{[%=fields.at(1).ifUndefined('CAPTION')%]}	\label{fig:[%=fields.at(0)%]}\end{figure}

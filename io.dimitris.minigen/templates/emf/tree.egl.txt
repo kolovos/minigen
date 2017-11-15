@@ -1,3 +1,0 @@
-Generates a Tree EPackage in Emfatic.
-
-***tree***

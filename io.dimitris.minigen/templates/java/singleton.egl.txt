@@ -1,3 +1,0 @@
-Creates a protected static instance and a static getter.
-
-***singleton:ConnectionManager***

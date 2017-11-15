@@ -43,6 +43,7 @@ import java.util.Map;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 import org.eclipse.epsilon.egl.merge.output.Output;
 import org.jnativehook.keyboard.NativeKeyEvent;
@@ -360,7 +361,12 @@ public class Minigen {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		new Minigen().launch();
+		try {
+			new Minigen().launch();
+		}
+		catch (Exception ex) {			
+			JOptionPane.showMessageDialog(null, "Fatal error: " + ex.getMessage());
+		}
 	}
 	
 }

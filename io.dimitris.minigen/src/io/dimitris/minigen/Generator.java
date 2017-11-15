@@ -12,11 +12,15 @@
 package io.dimitris.minigen;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import io.dimitris.minigen.delegates.EglGeneratorDelegate;
 import io.dimitris.minigen.delegates.EgxGeneratorDelegate;
@@ -35,7 +39,7 @@ public class Generator {
 	public HashMap<String, File> templates = new LinkedHashMap<String, File>();
 	protected ArrayList<IGeneratorDelegate> delegates = new ArrayList<IGeneratorDelegate>();
 	protected SelectTemplateDialog selectTemplateDialog = new SelectTemplateDialog();
-	protected File root = new File("templates").getAbsoluteFile();
+	protected File templatesRoot;
 	
 	protected static Generator instance;
 	
@@ -48,6 +52,19 @@ public class Generator {
 	
 	public ArrayList<IGeneratorDelegate> getDelegates() {
 		return delegates;
+	}
+	
+	public File getTemplatesRoot() {
+		Properties properties = new Properties();
+		try {
+			properties.load(new FileInputStream(new File(new File("").getAbsolutePath() + "config/config.properties")));
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		if (templatesRoot == null || !templatesRoot.getAbsolutePath().equals(properties.getProperty("templates_root"))) {
+			templatesRoot = new File(properties.getProperty("templates_root"));
+		}
+		return templatesRoot;
 	}
 	
 	public Generator() {
@@ -86,12 +103,12 @@ public class Generator {
 	
 	public void loadTemplates() {
 		templates.clear();
-		addTemplate(root);
+		addTemplate(getTemplatesRoot());
 	}
 	
 	public void addTemplate(File file) {
 		if (file.isDirectory() && !file.isHidden()) {
-			if (file == root || file.getParentFile().equals(root)) {
+			if (file == getTemplatesRoot() || file.getParentFile().equals(getTemplatesRoot())) {
 				for (File f : file.listFiles()) {
 					addTemplate(f);
 				}

@@ -17,8 +17,7 @@ public class AppleScriptEngine {
 	}
 	
 	private AppleScriptEngine() {
-		ScriptEngineManager mgr = new ScriptEngineManager();
-		engine = mgr.getEngineByName("AppleScript");
+		engine = new apple.applescript.AppleScriptEngine();
 	}
 	
 	public void eval(String... lines) throws Exception {

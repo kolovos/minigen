@@ -2,11 +2,9 @@ package io.dimitris.minigen.delegates;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 
 import org.apache.commons.io.FileUtils;
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EgxModule;
@@ -50,10 +48,6 @@ public class EgxGeneratorDelegate implements IFileGeneratorDelegate {
 							
 							File templateFile = new File(((EglFileGeneratingTemplateFactory) templateFactory).resolveTemplate(template));
 							File targetFile = new File(((EglFileGeneratingTemplateFactory) templateFactory).getOutputRoot(), target);
-						
-							
-							System.out.println(templateFile.getAbsolutePath());
-							System.out.println(targetFile.getAbsolutePath());
 							
 							try {
 								FileUtils.copyFile(templateFile, targetFile);

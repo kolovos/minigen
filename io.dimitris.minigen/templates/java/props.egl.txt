@@ -1,6 +1,0 @@
-Generates fields, setters and getters for a list of properties.
-
-***props:
-name,String
-children,ArrayList,Person
-map,HashMap,String,Object***

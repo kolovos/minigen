@@ -1,3 +1,0 @@
-Helps debugging a Java expression.
-
-***debug:a==b***

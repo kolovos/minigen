@@ -1,5 +1,0 @@
-\begin{itemize}
-	[%for (row in rows){%]
-	\item [%=row.text%]
-	[%}%]
-\end{itemize}

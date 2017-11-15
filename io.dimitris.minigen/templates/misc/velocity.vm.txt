@@ -1,3 +1,0 @@
-Example Velocity (<a href="http://velocity.apache.org/">velocity.apache.org/</a> template.
-
-***velocity:John*** 

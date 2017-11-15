@@ -231,7 +231,7 @@ public class TemplateBrowser extends JFrame {
 			
 			File file = null;
 			
-			if (tree.getSelectionPath() == null) file = new File("templates").getAbsoluteFile();
+			if (tree.getSelectionPath() == null) file = Generator.getInstance().getTemplatesRoot().getAbsoluteFile();
 			else file = ((File)tree.getSelectionPath().getLastPathComponent());
 			
 			try {
@@ -376,7 +376,7 @@ public class TemplateBrowser extends JFrame {
 	
 	class BrowserTreeModel implements TreeModel {
 		
-		protected File root = new File("templates").getAbsoluteFile();
+		protected File root = Generator.getInstance().getTemplatesRoot().getAbsoluteFile();
 		
 		public void addTreeModelListener(TreeModelListener treemodellistener) {
 			

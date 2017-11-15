@@ -1,4 +1,5 @@
 package io.dimitris.minigen.ui;
+import io.dimitris.minigen.Generator;
 import io.dimitris.minigen.util.AppleScriptEngine;
 
 import java.awt.event.ActionEvent;
@@ -29,7 +30,7 @@ public class OpenTemplatesFolderAction extends AbstractAction {
 	public void actionPerformed(ActionEvent actionevent) {
 		try {
 			AppleScriptEngine.getInstance().eval(
-				"set thePath to POSIX file \"" + new File("templates").getAbsolutePath() + "\"", 
+				"set thePath to POSIX file \"" + Generator.getInstance().getTemplatesRoot().getAbsolutePath() + "\"", 
 				"tell application \"Finder\"",
 				"	reveal thePath",
 				"	activate",

@@ -1,8 +1,0 @@
-Generates a LaTeX table.
-
-***
-ltable:
-Item, Price
-Book, 100
-Pen, 10
-***

@@ -1,3 +1,0 @@
-\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, flexiblecolumns=true, numbers=left, nolol=true, caption=[%=fields.at(1)%], label=lst:[%=fields.at(0)%], [%if (fields.size() > 2){%]language=[%=fields.at(2)%], [%}%]tabsize=2]
-
-\end{lstlisting}

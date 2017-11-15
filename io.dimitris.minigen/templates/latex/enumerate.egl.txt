@@ -1,8 +1,0 @@
-Creates an enumerate list.
-
-***
-enumerate:
-1
-2
-3
-***
