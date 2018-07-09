@@ -224,7 +224,7 @@ public class Minigen {
 					
 					@Override
 					public int getModifier() {
-						return NativeKeyEvent.VC_CONTROL_L;
+						return NativeKeyEvent.VC_CONTROL;
 					}
 	
 					@Override
@@ -248,7 +248,7 @@ public class Minigen {
 					
 					@Override
 					public int getModifier() {
-						return NativeKeyEvent.VC_CONTROL_L;
+						return NativeKeyEvent.VC_CONTROL;
 					}
 					
 					@Override
