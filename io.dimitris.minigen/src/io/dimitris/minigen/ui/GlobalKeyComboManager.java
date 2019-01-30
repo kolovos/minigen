@@ -5,6 +5,7 @@ import java.util.logging.LogManager;
 
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
+import org.jnativehook.dispatcher.SwingDispatchService;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
 
@@ -57,6 +58,7 @@ public class GlobalKeyComboManager {
 			}
 			
 		});
+		GlobalScreen.setEventDispatcher(new SwingDispatchService());
 	}
 		
 	public void teardown() throws Exception {
