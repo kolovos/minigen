@@ -19,6 +19,7 @@ public class GlobalKeyComboManager {
 	
 	public void registerNativeHook() {
 		try {
+			GlobalScreen.setEventDispatcher(new SwingDispatchService());
 			GlobalScreen.registerNativeHook();
 			LogManager.getLogManager().getLogger("org.jnativehook").setLevel(Level.OFF);
 		} catch (NativeHookException e) {}
@@ -58,11 +59,26 @@ public class GlobalKeyComboManager {
 			}
 			
 		});
-		GlobalScreen.setEventDispatcher(new SwingDispatchService());
 	}
 		
 	public void teardown() throws Exception {
 		GlobalScreen.unregisterNativeHook();
+	}
+	
+	static class NoGlobalKeyComboManager extends GlobalKeyComboManager {
+
+		@Override
+		public void registerNativeHook() {}
+
+		@Override
+		public boolean isNativeHookRegistered() { return true; }
+
+		@Override
+		public void addGlobalHotKeyListener(GlobalKeyComboListener listener) {}
+
+		@Override
+		public void teardown() throws Exception {}
+		
 	}
 	
 }

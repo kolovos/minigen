@@ -23,7 +23,7 @@
 			<classpath file="lib/quaqua.jar"/>
 			<classpath file="lib/MacWidgets.jar"/>
 			<classpath file="lib/forms.jar"/>
-			<classpath file="lib/jnativehook-2.1.0.jar"/>
+			<classpath file="lib/jnativehook-2.1.20190707.jar"/>
 			<librarypath file="lib/libquaqua.jnilib"/>
 			<librarypath file="lib/libquaqua64.jnilib"/>
 			<librarypath file="lib/libquaqua64.dylib"/>

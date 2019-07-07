@@ -61,6 +61,7 @@ public class EgxGeneratorDelegate implements IFileGeneratorDelegate {
 			}
 		};
 		module.parse(egx);
+		module.getContext().setUserInput(new SwingUserInput());
 		//String selectedFile = null;
 		//try {
 		//	selectedFile = (String) appleScriptEngine.eval("tell application \"Finder\" \n set currentFile to (item 1 of (get selection)) \n return name of currentFile \n end tell");
