@@ -57,7 +57,7 @@ public class Generator {
 	public File getTemplatesRoot() {
 		Properties properties = new Properties();
 		try {
-			properties.load(new FileInputStream(new File(new File("").getAbsolutePath() + "config/config.properties")));
+			properties.load(new FileInputStream(new File("config/config.properties")));
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
