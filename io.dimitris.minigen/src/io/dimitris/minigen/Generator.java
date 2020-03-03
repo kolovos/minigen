@@ -59,7 +59,12 @@ public class Generator {
 		try {
 			properties.load(new FileInputStream(new File(new File("").getAbsolutePath() + "config/config.properties")));
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			try {
+				properties.load(new FileInputStream(new File(new File("").getAbsolutePath() + "config/config.properties")));
+			}
+			catch (Exception e1) {
+				throw new RuntimeException(e1);
+			}
 		}
 		if (templatesRoot == null || !templatesRoot.getAbsolutePath().equals(properties.getProperty("templates_root"))) {
 			templatesRoot = new File(properties.getProperty("templates_root"));
